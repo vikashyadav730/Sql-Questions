@@ -1,0 +1,2875 @@
+1). How to Create a database?
+
+CREATE DATABASE Student_Details;
+Query OK, 1 row affected (0.0066 sec)
+===========================================================================================================================================================================
+
+2). How to see all the databases created?
+
+show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_details    |
+| sys                |
+| world              |
++--------------------+
+===========================================================================================================================================================================
+
+3). How to drop/delete a database?
+
+drop database student_details;
+Query OK, 0 rows affected (0.0127 sec)
+
+show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+===========================================================================================================================================================================
+
+4). How to use a created database or see which database is being used?
+
+select database();
++------------+
+| database() |
++------------+
+| NULL       |
++------------+
+
+use student_details;
+Default schema set to `student_details`.
+
+select database();
++-----------------+
+| database()      |
++-----------------+
+| student_details |
++-----------------+
+============================================================================================================================================================================
+
+5). Create a table named STUDENT which has the following attributes:
+    ID, FIRST NAME, LAST NAME, CITY(CHAR), AGE,Date of joining, RESULT which can be Pass,fail or awaited(default).
+    See if the table is created and also check the description of the table.
+
+CREATE TABLE Student(
+ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+First_Name VARCHAR(20) NOT NULL,
+Last_Name VARCHAR(20) NOT NULL,
+City CHAR(20) NOT NULL,
+Age INT UNSIGNED NOT NULL,
+Date_Of_Joining DATE NOT NULL,
+Result Enum('PASS','FAIL','AWAITED') NOT NULL DEFAULT 'AWAITED'
+);
+
+
+ SHOW TABLES;
++---------------------------+
+| Tables_in_student_details |
++---------------------------+
+| student                   |
++---------------------------+
+
+DESCRIBE STUDENT;
++-----------------+-------------------------------+------+-----+---------+----------------+
+| Field           | Type                          | Null | Key | Default | Extra          |
++-----------------+-------------------------------+------+-----+---------+----------------+
+| ID              | int unsigned                  | NO   | PRI | NULL    | auto_increment |
+| First_Name      | varchar(20)                   | NO   |     | NULL    |                |
+| Last_Name       | varchar(20)                   | NO   |     | NULL    |                |
+| City            | char(20)                      | NO   |     | NULL    |                |
+| Age             | int unsigned                  | NO   |     | NULL    |                |
+| Date_Of_Joining | date                          | NO   |     | NULL    |                |
+| Result          | enum('PASS','FAIL','AWAITED') | NO   |     | AWAITED |                |
++-----------------+-------------------------------+------+-----+---------+----------------+
+7 rows in set (0.0015 sec)
+==========================================================================================================================================================================
+	
+6). Create a table named DEGREE which has the following attributes:
+    Degree ID, Course name, Length of the course(Check if its GREATER THAN OR EQUAL TO  3) and Fees.
+    See if the table is created and also check the description of the table.
+
+CREATE TABLE DEGREE(
+Degree_ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+Course_Name VARCHAR(50) NOT NULL,
+Length_of_Course INT UNSIGNED NOT NULL CHECK(Length_of_Course >= 3),
+Fees DECIMAL(8,2)
+)AUTO_INCREMENT = 5000;
+
+ SHOW TABLES;
++---------------------------+
+| Tables_in_student_details |
++---------------------------+
+| degree                    |
+| student                   |
++---------------------------+
+
+ DESCRIBE DEGREE;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| Degree_ID        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| Course_Name      | varchar(50)  | NO   |     | NULL    |                |
+| Length_of_Course | int unsigned | NO   |     | NULL    |                |
+| Fees             | decimal(8,2) | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.0054 sec)
+===========================================================================================================================================================================
+
+7). Rename the attribute Date of joining IN Student table to Admission date.
+
+--> To rename attribute/column use 'CHANGE'. To rename Table use 'RENAME'.
+
+ALTER TABLE Student CHANGE Date_of_joining Admission_date DATE NOT NULL;
+
+DESCRIBE STUDENT;
++----------------+-------------------------------+------+-----+---------+----------------+
+| Field          | Type                          | Null | Key | Default | Extra          |
++----------------+-------------------------------+------+-----+---------+----------------+
+| ID             | int unsigned                  | NO   | PRI | NULL    | auto_increment |
+| First_Name     | varchar(20)                   | NO   |     | NULL    |                |
+| Last_Name      | varchar(20)                   | NO   |     | NULL    |                |
+| City           | char(20)                      | NO   |     | NULL    |                |
+| Age            | int unsigned                  | NO   |     | NULL    |                |
+| Admission_date | date                          | NO   |     | NULL    |                |
+| Result         | enum('PASS','FAIL','AWAITED') | NO   |     | AWAITED |                |
++----------------+-------------------------------+------+-----+---------+----------------+
+7 rows in set (0.0077 sec)
+===========================================================================================================================================================================
+
+8). Change the datatype of CITY in STUDENT table from CHAR TO VARCHAR.
+
+--> Change Datatype 'MODIFY'
+--> ADD Column 'ADD'
+--> Delete a column 'DROP'
+
+ALTER TABLE Student MODIFY CITY VARCHAR(20) NOT NULL;
+
+DESCRIBE STUDENT;
++----------------+-------------------------------+------+-----+---------+----------------+
+| Field          | Type                          | Null | Key | Default | Extra          |
++----------------+-------------------------------+------+-----+---------+----------------+
+| ID             | int unsigned                  | NO   | PRI | NULL    | auto_increment |
+| First_Name     | varchar(20)                   | NO   |     | NULL    |                |
+| Last_Name      | varchar(20)                   | NO   |     | NULL    |                |
+| CITY           | varchar(20)                   | NO   |     | NULL    |                |
+| Age            | int unsigned                  | NO   |     | NULL    |                |
+| Admission_date | date                          | NO   |     | NULL    |                |
+| Result         | enum('PASS','FAIL','AWAITED') | NO   |     | AWAITED |                |
++----------------+-------------------------------+------+-----+---------+----------------+
+7 rows in set (0.0012 sec)
+===========================================================================================================================================================================
+
+9). In DEGREE table change the name of Course name to Degree name.
+
+ALTER TABLE Degree CHANGE Course_name degree_name VARCHAR(50) not null;
+
+describe degree;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| Degree_ID        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| degree_name      | varchar(50)  | NO   |     | NULL    |                |
+| Length_of_Course | int unsigned | NO   |     | NULL    |                |
+| Fees             | decimal(8,2) | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.0015 sec)
+============================================================================================================================================================================
+
+10). Change the name of Degree table to Degree_Details and Student table to Student_Data.
+
+ALTER TABLE DEGREE RENAME DEGREE_DETAILS;
+ALTER TABLE STUDENT RENAME STUDENT_DATA;
+
+ SHOW TABLES;
++---------------------------+
+| Tables_in_student_details |
++---------------------------+
+| degree_details            |
+| student_data              |
++---------------------------+
+2 rows in set (0.0012 sec)
+===========================================================================================================================================================================
+
+>11). Add a column named Max_Marks to Degree_Details.
+
+ALTER TABLE DEGREE_DETAILS ADD COLUMN MAX_MARKS INT UNSIGNED NOT NULL;
+
+DESCRIBE DEGREE_DETAILS;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| Degree_ID        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| degree_name      | varchar(50)  | NO   |     | NULL    |                |
+| Length_of_Course | int unsigned | NO   |     | NULL    |                |
+| Fees             | decimal(8,2) | YES  |     | NULL    |                |
+| MAX_MARKS        | int unsigned | NO   |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.0013 sec)
+===========================================================================================================================================================================
+
+12). Delete the column named Max_Marks from Degree_Details and add column named Min_Marks.
+
+ALTER TABLE Degree_details DROP COLUMN Max_Marks;
+describe degree_details;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| Degree_ID        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| degree_name      | varchar(50)  | NO   |     | NULL    |                |
+| Length_of_Course | int unsigned | NO   |     | NULL    |                |
+| Fees             | decimal(8,2) | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.0014 sec)
+
+ALTER TABLE DeGrEe_DeTaIlS ADD COLUMN MIN_MARKS INT UNSIGNED NOT NULL;
+ DESCRIBE DEGREE_DETAILS;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| Degree_ID        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| degree_name      | varchar(50)  | NO   |     | NULL    |                |
+| Length_of_Course | int unsigned | NO   |     | NULL    |                |
+| Fees             | decimal(8,2) | YES  |     | NULL    |                |
+| MIN_MARKS        | int unsigned | NO   |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+===========================================================================================================================================================================
+
+13). Create a table named Enrollment which has the following attributes: 
+     Student ID, Marks and Degree ID.
+     See if the table is created and also check the description of the table.
+
+CREATE TABLE ENROLLMENT(
+SID INT UNSIGNED NOT NULL,
+MARKS INT UNSIGNED NOT NULL CHECK(MARKS<=100),
+DID INT UNSIGNED NOT NULL,
+FOREIGN KEY(SID) REFERENCES STUDENT_DATA(ID)
+);
+
+ DESCRIBE ENROLLMENT;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SID   | int unsigned | NO   | MUL | NULL    |       |
+| MARKS | int unsigned | NO   |     | NULL    |       |
+| DID   | int unsigned | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.0013 sec)
+
+ALTER TABLE ENROLLMENT ADD FOREIGN KEY(DID) REFERENCES DEGREE_DETAILS(DEGREE_ID);
+
+DESCRIBE ENROLLMENT;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SID   | int unsigned | NO   | MUL | NULL    |       |
+| MARKS | int unsigned | NO   |     | NULL    |       |
+| DID   | int unsigned | NO   | MUL | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.0011 sec)
+===========================================================================================================================================================================
+
+14). Delete the column named DID from Enrollment table AND create a new column named Deg_ID that references Degree_details(Degree_ID).
+
+ALTER TABLE ENROLLMENT DROP CONSTRAINT enrollment_ibfk_2;
+ALTER TABLE ENROLLMENT DROP KEY DID;
+ALTER TABLE ENROLLMENT DROP COLUMN DID;
+
+ DESCRIBE ENROLLMENT;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SID   | int unsigned | NO   | MUL | NULL    |       |
+| MARKS | int unsigned | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+2 rows in set (0.0016 sec)
+
+ALTER TABLE ENROLLMENT ADD COLUMN Deg_ID INT UNSIGNED NOT NULL;
+ DESCRIBE ENROLLMENT;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| SID    | int unsigned | NO   | MUL | NULL    |       |
+| MARKS  | int unsigned | NO   |     | NULL    |       |
+| Deg_ID | int unsigned | NO   |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+3 rows in set (0.0022 sec)
+
+ALTER TABLE ENROLLMENT ADD FOREIGN KEY(Deg_ID) references Degree_Details(Degree_Id);
+describe enrollment;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| SID    | int unsigned | NO   | MUL | NULL    |       |
+| MARKS  | int unsigned | NO   |     | NULL    |       |
+| Deg_ID | int unsigned | NO   | MUL | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+3 rows in set (0.0098 sec)
+===========================================================================================================================================================================
+
+15). Create a table named Parents which has the following attributes:
+     Father Name, Mother name
+
+CREATE TABLE PARENTS(
+F_Name varchar(20),
+M_Name varchar(20)
+);
+
+ describe parents;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| F_Name | varchar(20) | YES  |     | NULL    |       |
+| M_Name | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.0084 sec)
+===========================================================================================================================================================================
+
+16). Delete the table named Parents.
+
+drop table parents;
+Query OK, 0 rows affected (0.0159 sec)
+
+show tables;
++---------------------------+
+| Tables_in_student_details |
++---------------------------+
+| degree_details            |
+| enrollment                |
+| student_data              |
++---------------------------+
+3 rows in set (0.0010 sec)
+===========================================================================================================================================================================
+	
+17). Populate the Student_data table. Display the number of students. 
+
+INSERT INTO STUDENT_DATA(First_Name,Last_name,city,age,admission_date) values 
+('Akash','Kumar','Jaipur',24,'2020-03-28'),
+('Aaishwarya','Ray','Mumbai',32,'2020-05-29'),
+('Abhay','Chander','Mumbai',27,'2019-08-07'),
+('Anagha','Ahuja','Chennai',22,'2018-12-12'),
+('Bishwas','Bora','Ahmedabad',44,'2015-02-01'),
+('Bimla','Bhatt','Ahmedabad',21,'2021-03-21'),
+('Brijesh','Kumar','Jaipur',22,'2021-01-01'),
+('Arjun','Shet','Bangalore',19,'2020-12-31'),
+('Ramya','Bose','Bangalore',25,'2019-09-25'),
+('Sharanya','Ahuja','Mumbai',20,'2020-04-15'),
+('Suhas','Rai','Bangalore',27,'2016-05-14'),
+('Goutham','Sharma','Ahmedabad',26,'2020-07-20'),
+('Dilshan','Gupta','Jaipur',23,'2014-02-07'),
+('Sachin','Acharya','Bangalore',22,'2020-01-01'),
+('Tanveer','Ahmed','Chennai',23,'2019-05-09'),
+('Rupali','Gupta','Chennai',21,'2020-06-23'),
+('Deepika','Verma','Ahmedabad',26,'2017-08-22'),
+('Deepika','Chatterjee','Ahmedabad',29,'2020-11-05'),
+('Zhyn','Jackman','Bangalore',24,'2019-06-22');
+
+select * from student_data;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+| 1  | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | AWAITED |
+| 2  | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | AWAITED |
+| 3  | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | AWAITED |
+| 4  | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | AWAITED |
+| 5  | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+| 6  | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | AWAITED |
+| 7  | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | AWAITED |
+| 8  | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | AWAITED |
+| 9  | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | AWAITED |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | AWAITED |
+| 11 | Suhas      | Rai        | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | AWAITED |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | AWAITED |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | AWAITED |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | AWAITED |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | AWAITED |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | AWAITED |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | AWAITED |
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | AWAITED |
++----+------------+------------+-----------+-----+----------------+---------+
+19 rows in set (0.0008 sec)
+
+insert into degree_details(degree_name,length_of_course,fees,min_marks) values
+('Bachelor Of Commerce',3,200000,35),
+('Master Of Commerce',3,250000,40),
+('Bachelor Of Business',3,600000,35),
+('Master Of Business',3,500000,50),
+('Bachelor Of Technology',4,400000,35),
+('Master Of Technology',3,100000,40),
+('Phd Technology',5,300000,50),
+('Phd Business',5,90000,50),
+('Phd Commerce',4,50000,45),
+('MBBS',5,100000,40),
+('MD',4,500000,35)
+('Associate Bachelor Physics',3,75000,35);
+
+select * from degree_details;
++-----------+----------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name                | Length_of_Course | Fees      | MIN_MARKS |
++-----------+----------------------------+------------------+-----------+-----------+
+|      5000 | Bachelor Of Commerce       |                3 | 200000.00 |        35 |
+|      5001 | Master Of Commerce         |                3 | 250000.00 |        40 |
+|      5002 | Bachelor Of Business       |                3 | 600000.00 |        35 |
+|      5003 | Master Of Business         |                3 | 500000.00 |        50 |
+|      5004 | Bachelor Of Technology     |                4 | 400000.00 |        35 |
+|      5005 | Master Of Technology       |                3 | 100000.00 |        40 |
+|      5006 | Phd Technology             |                5 | 300000.00 |        50 |
+|      5007 | Phd Business               |                5 |  90000.00 |        50 |
+|      5008 | Phd Commerce               |                4 |  50000.00 |        45 |
+|      5009 | MBBS                       |                5 | 100000.00 |        40 |
+|      5010 | MD                         |                4 | 500000.00 |        35 |
+|      5011 | Associate Bachelor Physics |                3 |  75000.00 |        35 |
++-----------+----------------------------+------------------+-----------+-----------+
+12 rows in set (0.0006 sec)
+
+INSERT INTO ENROLLMENT(SID,MARKS,DEG_ID) VALUES
+(1,99,5007),
+(2,66,5007),
+(3,76,5010),
+(5,26,5002),
+(6,45,5003),
+(7,81,5004),
+(8,31,5004),
+(9,28,5001),
+(11,56,5002),
+(12,79,5005),
+(13,61,5007),
+(14,30,5009),
+(15,41,5010),
+(16,75,5001),
+(17,55,5007),
+(19,71,5004);
+
+select * from enrollment;
++-----+-------+--------+
+| sid | marks | deg_id |
++-----+-------+--------+
+|   1 |    99 |   5007 |
+|   2 |    66 |   5007 |
+|   3 |    76 |   5010 |
+|   5 |    26 |   5002 |
+|   6 |    45 |   5003 |
+|   7 |    81 |   5004 |
+|   8 |    31 |   5004 |
+|   9 |    28 |   5001 |
+|  11 |    56 |   5002 |
+|  12 |    79 |   5005 |
+|  13 |    61 |   5007 |
+|  14 |    30 |   5009 |
+|  15 |    41 |   5010 |
+|  16 |    75 |   5001 |
+|  17 |    55 |   5007 |
+|  19 |    71 |   5004 |
++-----+-------+--------+
+16 rows in set (0.0009 sec)
+
+DELETE FROM ENROLLMENT WHERE SID = 9;
+
+UPDATE Student_data as s,Degree_details as d,enrollment as e set s.Result='Pass' where e.marks>=d.min_marks and s.id=e.sid and e.deg_id=d.degree_id;
+select * from student_data;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+| 1  | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
+| 2  | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+| 3  | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | AWAITED |
+| 4  | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+| 5  | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+| 6  | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | AWAITED |
+| 7  | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | PASS    |
+| 8  | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+| 9  | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | AWAITED |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | AWAITED |
+| 11 | Suhas      | Rai        | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | AWAITED |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+19 rows in set (0.0007 sec)
+
+UPDATE Student_data as s,Degree_details as d,enrollment as e set s.Result='Fail' where e.marks<d.min_marks and s.id=e.sid and e.deg_id=d.degree_id;
+select * from student_data;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | AWAITED |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+|  5 | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  7 | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | FAIL    |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhas      | Rai        | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | FAIL    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+19 rows in set (0.0012 sec)
+=====================================================================================================================================================================================================
+
+18). Display the number of degrees/courses in degree_details table.
+
+ select count(*) from degree_details;
++----------+
+| count(*) |
++----------+
+|       12 |
++----------+
+1 row in set (0.0018 sec)
+=====================================================================================================================================================================================================     
+
+19).Display the number of students who have enrolled in a course/degree.
+
+select count(*) from enrollment;
++----------+
+| count(*) |
++----------+
+|       16 |
++----------+
+1 row in set (0.0016 sec)
+
+======================================================================================================================================================================================================
+
+20). Display all the data in Student_Data table.
+ 
+select * from student_data;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | AWAITED |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+|  5 | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  7 | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | FAIL    |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhas      | Rai        | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | FAIL    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | PASS    |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED |
++----+------------+------------+-----------+-----+----------------+---------+
+20 rows in set (0.0029 sec)
+======================================================================================================================================================================================================
+
+21). Display all the data in Degree_Details table in descending order of Min_Marks.
+
+select * from degree_details order by Min_Marks desc;
++-----------+----------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name                | Length_of_Course | Fees      | MIN_MARKS |
++-----------+----------------------------+------------------+-----------+-----------+
+|      5003 | Master Of Business         |                3 | 500000.00 |        50 |
+|      5006 | Phd Technology             |                5 | 300000.00 |        50 |
+|      5007 | Phd Business               |                5 |  90000.00 |        50 |
+|      5008 | Phd Commerce               |                4 |  50000.00 |        45 |
+|      5001 | Master Of Commerce         |                3 | 250000.00 |        40 |
+|      5005 | Master Of Technology       |                3 | 100000.00 |        40 |
+|      5009 | MBBS                       |                5 | 100000.00 |        40 |
+|      5000 | Bachelor Of Commerce       |                3 | 200000.00 |        35 |
+|      5002 | Bachelor Of Business       |                3 | 600000.00 |        35 |
+|      5004 | Bachelor Of Technology     |                4 | 400000.00 |        35 |
+|      5010 | MD                         |                4 | 500000.00 |        35 |
+|      5011 | Associate Bachelor Physics |                3 |  75000.00 |        35 |
++-----------+----------------------------+------------------+-----------+-----------+
+12 rows in set (0.0006 sec)
+========================================================================================================================================================================================================
+
+22). Display the Student ID, First 3 characters of FIRST NAME.
+
+ select id, substring(first_name,1,3) from student_data;
++----+---------------------------+
+| id | substring(first_name,1,3) |
++----+---------------------------+
+|  1 | Aka                       |
+|  2 | Aai                       |
+|  3 | Abh                       |
+|  4 | Ana                       |
+|  5 | Bis                       |
+|  6 | Bim                       |
+|  7 | Bri                       |
+|  8 | Arj                       |
+|  9 | Ram                       |
+| 10 | Sha                       |
+| 11 | Suh                       |
+| 12 | Gou                       |
+| 13 | Dil                       |
+| 14 | Sac                       |
+| 15 | Tan                       |
+| 16 | Rup                       |
+| 17 | Dee                       |
+| 18 | Dee                       |
+| 19 | Zhy                       |
+| 20 | Ris                       |
++----+---------------------------+
+20 rows in set (0.0004 sec)
+============================================================================================================================================================================================================
+
+23). Display the details of the student whose ID is 15. In the result replace 'v' with 'V'in First name.
+
+select ID, replace(First_name,'v','V'),Last_name,City,Age,Admission_date,Result from student_data where id=15;
++----+-----------------------------+-----------+---------+-----+----------------+--------+
+| ID | replace(First_name,'v','V') | Last_name | City    | Age | Admission_date | Result |
++----+-----------------------------+-----------+---------+-----+----------------+--------+
+| 15 | TanVeer                     | Ahmed     | Chennai |  23 | 2019-05-09     | FAIL   |
++----+-----------------------------+-----------+---------+-----+----------------+--------+
+1 row in set (0.0004 sec)
+============================================================================================================================================================================================================
+
+24). Display the First name as FN in upper case, of students whose last name is 'Sharma'. Also display the position of letter 'a' in first name.
+
+SELECT Upper(First_name) as 'FN',instr(first_name,'a') from Student_data where last_name='Sharma';
++---------+-----------------------+
+| FN      | instr(first_name,'a') |
++---------+-----------------------+
+| GOUTHAM |                     6 |
++---------+-----------------------+
+1 row in set (0.0005 sec)
+============================================================================================================================================================================================================
+
+25). Display last name of students in lower case whose first name is 'Aaishwarya'. Also display the length of the last name. 
+
+SELECT lower(LAST_NAME),char_length(Last_name) FROM STUDENT_DATA WHERE FIRST_NAME='Aaishwarya';
++------------------+------------------------+
+| lower(LAST_NAME) | char_length(Last_name) |
++------------------+------------------------+
+| ray              |                      3 |
++------------------+------------------------+
+1 row in set (0.0005 sec)
+============================================================================================================================================================================================================
+
+26). Display the details of the students who are from 'Ahmedabad' city in ascending order of first name and descending order of id. Display Last name in reverse.
+ 
+select id,first_name,reverse(last_name),city,age,admission_date,result from student_data where city='Ahmedabad' order by first_name,id desc;
++----+------------+--------------------+-----------+-----+----------------+---------+
+| id | first_name | reverse(last_name) | city      | age | admission_date | result  |
++----+------------+--------------------+-----------+-----+----------------+---------+
+|  6 | Bimla      | ttahB              | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  5 | Bishwas    | aroB               | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+| 18 | Deepika    | eejrettahC         | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 17 | Deepika    | amreV              | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 12 | Goutham    | amrahS             | Ahmedabad |  26 | 2020-07-20     | PASS    |
++----+------------+--------------------+-----------+-----+----------------+---------+
+5 rows in set (0.0006 sec)
+============================================================================================================================================================================================================
+
+27). Write a query to display the first names of students in Upper case.
+
+select upper(first_name) from student_data;
++-------------------+
+| upper(first_name) |
++-------------------+
+| AKASH             |
+| AAISHWARYA        |
+| ABHAY             |
+| ANAGHA            |
+| BISHWAS           |
+| BIMLA             |
+| BRIJESH           |
+| ARJUN             |
+| RAMYA             |
+| SHARANYA          |
+| SUHAS             |
+| GOUTHAM           |
+| DILSHAN           |
+| SACHIN            |
+| TANVEER           |
+| RUPALI            |
+| DEEPIKA           |
+| DEEPIKA           |
+| ZHYN              |
+| RISHI             |
++-------------------+
+20 rows in set (0.0005 sec)
+============================================================================================================================================================================================================
+
+28). Write a query to display the full names of students as COMPLETE NAME in Lower case.
+
+select LOWER(concat(first_name,' ',last_name)) as 'COMPLETE NAME'from student_data;
++--------------------+
+| COMPLETE NAME      |
++--------------------+
+| akash kumar        |
+| aaishwarya ray     |
+| abhay chander      |
+| anagha ahuja       |
+| bishwas bora       |
+| bimla bhatt        |
+| brijesh kumar      |
+| arjun shet         |
+| ramya bose         |
+| sharanya ahuja     |
+| suhas rai          |
+| goutham sharma     |
+| dilshan gupta      |
+| sachin acharya     |
+| tanveer ahmed      |
+| rupali gupta       |
+| deepika verma      |
+| deepika chatterjee |
+| zhyn jackman       |
+| rishi shakshamas   |
++--------------------+
+20 rows in set (0.0004 sec)
+============================================================================================================================================================================================================
+
+29). Write a query to display the unique cities to which the students belong to in ascending order of city.
+
+SELECT DISTINCT CITY FROM STUDENT_DATA ORDER BY CITY;
++-----------+
+| CITY      |
++-----------+
+| Ahmedabad |
+| Bangalore |
+| Chennai   |
+| Jaipur    |
+| Mumbai    |
++-----------+
+5 rows in set (0.0005 sec)
+============================================================================================================================================================================================================
+
+30). Write a query to display the degrees offered. Order them in descending order of Min_Marks.
+
+SELECT DISTINCT DEGREE_NAME FROM DEGREE_DETAILS ORDER BY MIN_MARKS DESC;
++----------------------------+
+| DEGREE_NAME                |
++----------------------------+
+| Master Of Business         |
+| Phd Technology             |
+| Phd Business               |
+| Phd Commerce               |
+| Master Of Commerce         |
+| Master Of Technology       |
+| MBBS                       |
+| Bachelor Of Commerce       |
+| Bachelor Of Business       |
+| Bachelor Of Technology     |
+| MD                         |
+| Associate Bachelor Physics |
++----------------------------+
+12 rows in set (0.0006 sec)
+============================================================================================================================================================================================================
+
+31). Write a query to display the details of students who are more than 23 years of age and first name has exactly 5 characters.
+
+ SELECT * FROM STUDENT_DATA WHERE AGE>23 AND CHAR_LENGTH(FIRST_NAME)=5;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  3 | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | AWAITED |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 11 | Suhas      | Rai        | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED |
++----+------------+------------+-----------+-----+----------------+---------+
+5 rows in set (0.0005 sec)
+=============================================================================================================================================================================================================
+
+32). Write a query to display the FIRST names of students who are 22 years old or younger.
+
+select first_name from student_data where age<=22;
++------------+
+| first_name |
++------------+
+| Anagha     |
+| Bimla      |
+| Brijesh    |
+| Arjun      |
+| Sharanya   |
+| Sachin     |
+| Rupali     |
++------------+
+7 rows in set (0.0004 sec)
+==============================================================================================================================================================================================================
+
+33). Write a query to display the First names of students who are not from Chennai.
+
+select first_name from student_data where city != 'Chennai';
++------------+
+| first_name |
++------------+
+| Akash      |
+| Aaishwarya |
+| Abhay      |
+| Bishwas    |
+| Bimla      |
+| Brijesh    |
+| Arjun      |
+| Ramya      |
+| Sharanya   |
+| Suhas      |
+| Goutham    |
+| Dilshan    |
+| Sachin     |
+| Deepika    |
+| Deepika    |
+| Zhyn       |
+| Rishi      |
++------------+
+17 rows in set (0.0004 sec)
+================================================================================================================================================================================================================
+
+34). Write a query to display the details of students who are 22 years old or are from Mumbai.
+
+select * from student_data where age=22 or city='Mumbai';
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | AWAITED |
+|  4 | Anagha     | Ahuja     | Chennai   |  22 | 2018-12-12     | PASS    |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | FAIL    |
+| 10 | Sharanya   | Ahuja     | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |
++----+------------+-----------+-----------+-----+----------------+---------+
+6 rows in set (0.0005 sec)
+
+35). Write a query to display the name and age of students who are from Bangalore and of age 27.
+
+select first_name,age from student_data where age=27 and city='Bangalore';
++------------+-----+
+| first_name | age |
++------------+-----+
+| Suhas      |  27 |
++------------+-----+
+1 row in set (0.0004 sec)
+================================================================================================================================================================================================================
+
+36). Write a query to display the name, age,city of students who are from Mumbai,Chennai or Jaipur.
+
+ select first_name,age,city from student_data where city in ('Jaipur','Mumbai','Chennai');
++------------+-----+---------+
+| first_name | age | city    |
++------------+-----+---------+
+| Akash      |  24 | Jaipur  |
+| Aaishwarya |  32 | Mumbai  |
+| Abhay      |  27 | Mumbai  |
+| Anagha     |  22 | Chennai |
+| Brijesh    |  22 | Jaipur  |
+| Sharanya   |  20 | Mumbai  |
+| Dilshan    |  23 | Jaipur  |
+| Tanveer    |  23 | Chennai |
+| Rupali     |  21 | Chennai |
+| Rishi      |  25 | Jaipur  |
++------------+-----+---------+
+10 rows in set (0.0005 sec)
+===========================================================================================================================================================================
+
+37). Write a query to display the name, age and city of students who are not from Mumbai,Chennai or Jaipur.
+
+select first_name,age,city from student_data where city not in ('Jaipur','Mumbai','Chennai');
++------------+-----+-----------+
+| first_name | age | city      |
++------------+-----+-----------+
+| Bishwas    |  44 | Ahmedabad |
+| Bimla      |  21 | Ahmedabad |
+| Arjun      |  19 | Bangalore |
+| Ramya      |  25 | Bangalore |
+| Suhas      |  27 | Bangalore |
+| Goutham    |  26 | Ahmedabad |
+| Sachin     |  22 | Bangalore |
+| Deepika    |  26 | Ahmedabad |
+| Deepika    |  29 | Ahmedabad |
+| Zhyn       |  24 | Bangalore |
++------------+-----+-----------+
+10 rows in set (0.0004 sec)
+
+============================================================================================================================================================================
+
+38). Write a query to display the Id,Full name,MARKS of students who are more than 20 years old and scored more than 90.
+      Order of execution:
+      FROM 
+      WHERE 
+      JOIN 
+      GROUP BY 
+      HAVING
+      SELECT
+      ORDER BY
+      LIMIT
+
+
+ select s.id,concat(s.first_name,' ',s.last_name) as 'Full Name',e.Marks from student_data as s,enrollment as e where s.age>20 and e.marks>90 and s.id=e.sid;
++----+-------------+-------+
+| id | Full Name   | Marks |
++----+-------------+-------+
+|  1 | Akash Kumar |    99 |
++----+-------------+-------+
+1 row in set (0.0006 sec)
+
+============================================================================================================================================================================
+
+39). Write a query to display the details of degrees who have fees more than 200000 and duration 4 years or less.
+
+select * from degree_details where fees>200000 and length_of_course<=4;
++-----------+------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name            | Length_of_Course | Fees      | MIN_MARKS |
++-----------+------------------------+------------------+-----------+-----------+
+|      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |
+|      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |
+|      5003 | Master Of Business     |                3 | 500000.00 |        50 |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |
+|      5010 | MD                     |                4 | 500000.00 |        35 |
++-----------+------------------------+------------------+-----------+-----------+
+5 rows in set (0.0029 sec)
+===========================================================================================================================================================================
+
+40). Write a query to display the details of students whose age is less than 22 or greater than 25.
+
+select * from student_data where age not between 22 and 25;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | AWAITED |
+|  5 | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhas      | Rai        | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+11 rows in set (0.0006 sec)
+===========================================================================================================================================================================
+
+41). Write a query to display the details of students whose age is between 22 and 25 in descending order of first name.
+
+ select * from student_data where age between 22 and 25 order by first_name desc;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | PASS    |
+| 21 | Tushar     | Thammanna  | Ahmedabad |  24 | 2019-03-06     | AWAITED |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | FAIL    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |
+|  7 | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | FAIL    |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+10 rows in set (0.0007 sec)
+============================================================================================================================================================================
+
+42). Write a query to display the last_name of all students and display the number of 'S' and 's' in their last names.
+      
+     insert into student_data values(20,'Rishi','Shakshamas','Jaipur',25,'2021-01-03','AWAITED');
+      
+select last_name,char_length(last_name)-char_length(replace(lower(last_name),'s','')) from student_data;
+select last_name,char_length(last_name)-char_length(replace(replace(last_name,'s',''),'S','')) from student_data;
++------------+-------------------------------------------------------------------------------+
+| last_name  | char_length(last_name)-char_length(replace(replace(last_name,'s',''),'S','')) |
++------------+-------------------------------------------------------------------------------+
+| Kumar      |                                                                             0 |
+| Ray        |                                                                             0 |
+| Chander    |                                                                             0 |
+| Ahuja      |                                                                             0 |
+| Bora       |                                                                             0 |
+| Bhatt      |                                                                             0 |
+| Kumar      |                                                                             0 |
+| Shet       |                                                                             1 |
+| Bose       |                                                                             1 |
+| Ahuja      |                                                                             0 |
+| Rai        |                                                                             0 |
+| Sharma     |                                                                             1 |
+| Gupta      |                                                                             0 |
+| Acharya    |                                                                             0 |
+| Ahmed      |                                                                             0 |
+| Gupta      |                                                                             0 |
+| Verma      |                                                                             0 |
+| Chatterjee |                                                                             0 |
+| Jackman    |                                                                             0 |
+| Shakshamas |                                                                             3 |
+| Thammanna  |                                                                             0 |
++------------+-------------------------------------------------------------------------------+
+21 rows in set (0.0005 sec)
+================================================================================================================================================================================      
+
+43). Display the details of students whose first name have exactly 1 'i'.
+ select * from student_data where char_length(first_name)-char_length(replace(lower(first_name),'i',''))=1;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  5 | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  7 | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | FAIL    |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+9 rows in set (0.0008 sec)
+===============================================================================================================================================================================
+
+44). Display the details of students whose first name and last name together have exactly 2 't'.
+
+      insert into student_data values (21,'Tushar','Thammanna','Ahmedabad',24,'2019-03-06','AWAITED');
+select * from student_data where char_length(concat(first_name,last_name))-char_length(replace(lower(concat(first_name,last_name)),'t',''))=2;
+select * from student_data where char_length(first_name)-char_length(replace(lower(first_name),'t',''))
++char_length(last_name)-char_length(replace(lower(last_name),'t',''))=2;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 21 | Tushar     | Thammanna  | Ahmedabad |  24 | 2019-03-06     | AWAITED |
++----+------------+------------+-----------+-----+----------------+---------+
+3 rows in set (0.0007 sec)
+================================================================================================================================================================================
+
+LIKE
+--> _ Matches One character
+--> % Matched Zero or more characters.
+
+RLIKE/REGEXP
+--> *  Zero or more instances of the string preceding it.
+--> +  One or more instances of the string preceding it.
+--> .  Any single character.
+--> ?  Zero or One instances of the string preceding it.
+--> ^  Matches beginning of the string.
+--> $  Matches the end of the string.
+--> [] Matches any data that contains any one of the characters within [].
+--> [^ ] Matches any data that does not contain any of the characters within [].
+--> [A-Z] Matches any uppercase letter
+--> [a-z] Matches any lower case letter
+--> [0-9] Matches any digit
+============================================================================================================================================================================
+45). Write a query to display details of students whose first names start from S.
+
+select * from student_data where first_name Rlike '^S';
+select * from student_data where first_name like 'S%';
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+| 10 | Sharanya   | Ahuja     | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhas      | Rai       | Bangalore |  27 | 2016-05-14     | AWAITED |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |
++----+------------+-----------+-----------+-----+----------------+---------+
+3 rows in set (0.0007 sec)
+=============================================================================================================================================================================
+
+46). Write a query to display the details of the students whose First names start from 'Bim'.
+
+select * from student_data where first_name rlike '^Bim';
+select * from student_data where first_name like 'Bim%';
++----+------------+-----------+-----------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result |
++----+------------+-----------+-----------+-----+----------------+--------+
+|  6 | Bimla      | Bhatt     | Ahmedabad |  21 | 2021-03-21     | FAIL   |
++----+------------+-----------+-----------+-----+----------------+--------+
+1 row in set (0.0005 sec)
+======================================================================================================================================================================================
+
+47). Write a query to display details of students whose first names end with A.
+
+select * from student_data where first_name like '%a';
+select * from student_data where first_name rlike 'a$';
++----+------------+------------+-----------+-----+----------------+--------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result |
++----+------------+------------+-----------+-----+----------------+--------+
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS   |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS   |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL   |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL   |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL   |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS   |
+| 18 | Deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS   |
++----+------------+------------+-----------+-----+----------------+--------+
+7 rows in set (0.0005 sec)
+============================================================================================================================================================================
+
+48). Write a query to display details of the students whose last_names end with 'ma'
+
+select * from student_data where LAST_NAME Like '%ma';
+select * from student_data where LAST_NAME rLike 'ma$';
++----+------------+-----------+-----------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result |
++----+------------+-----------+-----------+-----+----------------+--------+
+| 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS   |
+| 17 | Deepika    | Verma     | Ahmedabad |  26 | 2017-08-22     | PASS   |
++----+------------+-----------+-----------+-----+----------------+--------+
+2 rows in set (0.0007 sec)
+======================================================================================================================================================================================
+
+49). Write a query to display details of students who have joined on the 1st of any month.
+
+select * from student_data where admission_date like '%01';
+select * from student_data where admission_date rlike '01$';
+select * from student_data where admission_date rlike '[0-9]+-[0-9]+-01';
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+|  5 | Bishwas    | Bora      | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | FAIL    |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |
++----+------------+-----------+-----------+-----+----------------+---------+
+3 rows in set (0.0008 sec)
+======================================================================================================================================================================================
+
+50). Write a query to display name and id of courses starts from 'Bachelor'.
+select degree_name,degree_id from degree_details where degree_name like 'Bachelor%';
+select degree_name,degree_id from degree_details where degree_name rlike '^Bachelor';
++------------------------+-----------+
+| degree_name            | degree_id |
++------------------------+-----------+
+| Bachelor Of Commerce   |      5000 |
+| Bachelor Of Business   |      5002 |
+| Bachelor Of Technology |      5004 |
++------------------------+-----------+
+3 rows in set (0.0010 sec)
+===================================================================================================================================================================================
+
+51). Write a query to display name and id of courses that contain 'Of'.
+select degree_name,degree_id from degree_details where degree_name like '%Of%';
+select degree_name,degree_id from degree_details where degree_name REGEXP 'Of';
++------------------------+-----------+
+| degree_name            | degree_id |
++------------------------+-----------+
+| Bachelor Of Commerce   |      5000 |
+| Master Of Commerce     |      5001 |
+| Bachelor Of Business   |      5002 |
+| Master Of Business     |      5003 |
+| Bachelor Of Technology |      5004 |
+| Master Of Technology   |      5005 |
++------------------------+-----------+
+6 rows in set (0.0006 sec)
+===================================================================================================================================================================================
+
+52). Write a query to display name and id of courses that end with 'Technology'.
+SELECT DEGREE_NAME,DEGREE_ID FROM DEGREE_DETAILS WHERE Degree_name LIKE '%Technology';
+ SELECT DEGREE_NAME,DEGREE_ID FROM DEGREE_DETAILS WHERE Degree_name RLIKE 'Technology$';
++------------------------+-----------+
+| DEGREE_NAME            | DEGREE_ID |
++------------------------+-----------+
+| Bachelor Of Technology |      5004 |
+| Master Of Technology   |      5005 |
+| Phd Technology         |      5006 |
++------------------------+-----------+
+3 rows in set (0.0005 sec)
+====================================================================================================================================================================================
+
+53). Write a query to display the name and id of course where the 3rd character of Degree_name is 'd' or First character is 'A'.
+select degree_name,degree_id from degree_details where Degree_name like 'A%' or Degree_name like '__d%';
+select degree_name,degree_id from degree_details where Degree_name rlike '^A' or Degree_name rlike '..d';
++----------------------------+-----------+
+| degree_name                | degree_id |
++----------------------------+-----------+
+| Phd Technology             |      5006 |
+| Phd Business               |      5007 |
+| Phd Commerce               |      5008 |
+| Associate Bachelor Physics |      5011 |
++----------------------------+-----------+
+4 rows in set (0.0005 sec)
+=====================================================================================================================================================================================
+
+54). Write a query to display the name and id of course where the 4th and 3rd characters from the last is 'lo'.
+select degree_name,degree_id from degree_details where degree_name like '%lo__';
+select degree_name,degree_id from degree_details where degree_name rlike 'lo..$';
++------------------------+-----------+
+| degree_name            | degree_id |
++------------------------+-----------+
+| Bachelor Of Technology |      5004 |
+| Master Of Technology   |      5005 |
+| Phd Technology         |      5006 |
++------------------------+-----------+
+3 rows in set (0.0005 sec)
+====================================================================================================================================================================================
+
+55). Write a query to display the details of the course that contains exactly 3 words in its name.
+update degree_details set degree_name='Assoc Bach Physics Hons' where degree_id=5011;
+select * from degree_details where degree_name like '% % %' and degree_name not like '% % % %'; 
+select * from degree_details where degree_name rlike '[A-Za-z]+ [A-Za-z]+ [A-Za-z]+' and degree_name 
+not rlike '[A-Za-z]+ [A-Za-z]+ [A-Za-z]+ [A-Za-z]+';
++-----------+------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name            | Length_of_Course | Fees      | MIN_MARKS |
++-----------+------------------------+------------------+-----------+-----------+
+|      5000 | Bachelor Of Commerce   |                3 | 200000.00 |        35 |
+|      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |
+|      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |
+|      5003 | Master Of Business     |                3 | 500000.00 |        50 |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |
+|      5005 | Master Of Technology   |                3 | 100000.00 |        40 |
++-----------+------------------------+------------------+-----------+-----------+
+6 rows in set (0.0008 sec)
+======================================================================================================================================================================================
+
+56). Write a query to display the details of the course that contains atleast 2 words in its name.
+select * from degree_details where degree_name like '% %';
+select * from degree_details where degree_name rlike '[A-Za-z]+ [A-Za-z]+';
++-----------+-------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name             | Length_of_Course | Fees      | MIN_MARKS |
++-----------+-------------------------+------------------+-----------+-----------+
+|      5000 | Bachelor Of Commerce    |                3 | 200000.00 |        35 |
+|      5001 | Master Of Commerce      |                3 | 250000.00 |        40 |
+|      5002 | Bachelor Of Business    |                3 | 600000.00 |        35 |
+|      5003 | Master Of Business      |                3 | 500000.00 |        50 |
+|      5004 | Bachelor Of Technology  |                4 | 400000.00 |        35 |
+|      5005 | Master Of Technology    |                3 | 100000.00 |        40 |
+|      5006 | Phd Technology          |                5 | 300000.00 |        50 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |
+|      5008 | Phd Commerce            |                4 |  50000.00 |        45 |
+|      5011 | Assoc Bach Physics Hons |                3 |  75000.00 |        35 |
++-----------+-------------------------+------------------+-----------+-----------+
+10 rows in set (0.0007 sec)
+=======================================================================================================================================================================================
+
+57). Write a query to display the details of courses that have atmost 2 words in its name.
+select * from degree_details where (degree_name like '%' or degree_name like '% %') and degree_name not like '% % %';
+select * from degree_details where (degree_name rlike '[A-Za-z]+' or degree_name rlike '[A-Za-z]+ [A-Za-z]+') and 
+degree_name not rlike '[A-Za-z]+ [A-Za-z]+ [A-Za-z]+';
++-----------+----------------+------------------+-----------+-----------+
+| Degree_ID | degree_name    | Length_of_Course | Fees      | MIN_MARKS |
++-----------+----------------+------------------+-----------+-----------+
+|      5006 | Phd Technology |                5 | 300000.00 |        50 |
+|      5007 | Phd Business   |                5 |  90000.00 |        50 |
+|      5008 | Phd Commerce   |                4 |  50000.00 |        45 |
+|      5009 | MBBS           |                5 | 100000.00 |        40 |
+|      5010 | MD             |                4 | 500000.00 |        35 |
++-----------+----------------+------------------+-----------+-----------+
+5 rows in set (0.0006 sec)
+==================================================================================================================================================================================
+
+58). Write a query to display the names of students that have exactly 5 characters using LIKE and RLIKE.
+select first_name from student_data where first_name like '_____';
+select first_name from student_data where first_name rlike '^.....$';
++------------+
+| first_name |
++------------+
+| Akash      |
+| Abhay      |
+| Bimla      |
+| Arjun      |
+| Ramya      |
+| Suhas      |
+| Rishi      |
++------------+
+7 rows in set (0.0008 sec)
+============================================================================================================================================================================
+
+59). Write a query to display details of students whose first name contains 'pi' and 'De'. 'D' must be capital.
+
+update student_data set first_name='deepika' where id =18; 
+select * from student_data where first_name like '%pi%' and first_name like BINARY '%De%';
+select * from student_data where first_name rlike 'pi' and cast(first_name as Binary) rlike BINARY 'De';
++----+------------+-----------+-----------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result |
++----+------------+-----------+-----------+-----+----------------+--------+
+| 17 | Deepika    | Verma     | Ahmedabad |  26 | 2017-08-22     | PASS   |
++----+------------+-----------+-----------+-----+----------------+--------+
+1 row in set (0.0005 sec)
+============================================================================================================================================================================
+
+60). Write a query to display the first name and id of students who joined in July 2020.
+select first_name,id from student_data where admission_date like '2020-07-%';
+select first_name,id from student_data where admission_date rlike '^2020-07-[1-3][0-9]$';
++------------+----+
+| first_name | id |
++------------+----+
+| Goutham    | 12 |
++------------+----+
+1 row in set (0.0005 sec)
+===========================================================================================================================================================================
+
+61). Write a query to display the first name of students whose first name contains consecutive a's.
+select first_name from student_data where first_name rlike 'aaa*';
+select first_name from student_data where first_name rlike 'aa+';
+select first_name from student_data where first_name rlike 'aa';
+select first_name from student_data where first_name like '%aa%';
+
++------------+
+| first_name |
++------------+
+| Aaishwarya |
++------------+
+1 row in set (0.0004 sec)
+============================================================================================================================================================================
+
+62). Write a query to display the first name and id of students whose first name contains a vowel.
+
+select id,first_name from student_data where first_name like '%a%' or first_name like '%e%' or first_name like '%i%' or 
+first_name like '%o%' or first_name like '%u%';
+select id,first_name from student_data where first_name rlike '[a e i o u]';
++----+------------+
+| id | first_name |
++----+------------+
+|  1 | Akash      |
+|  2 | Aaishwarya |
+|  3 | Abhay      |
+|  4 | Anagha     |
+|  5 | Bishwas    |
+|  6 | Bimla      |
+|  7 | Brijesh    |
+|  8 | Arjun      |
+|  9 | Ramya      |
+| 10 | Sharanya   |
+| 11 | Suhaaaaaas |
+| 12 | Goutham    |
+| 13 | Dilshan    |
+| 14 | Sachin     |
+| 15 | Tanveer    |
+| 16 | Rupali     |
+| 17 | Deepika    |
+| 18 | deepika    |
+| 20 | Rishi      |
+| 21 | Tushar     |
+| 22 | Emilio     |
++----+------------+
+21 rows in set (0.0012 sec)
+=============================================================================================================================================================================
+
+63). Write a query to display the name and id of students whose first name doesnot contain vowels.
+
+select id, first_name from student_data where first_name not like '%a%' and first_name not like '%e%' 
+and first_name not like '%i%'  and first_name not like '%o%'  and first_name not like '%u%';
+ select id,first_name from student_data where first_name not rlike '[a e i o u]';
++----+------------+
+| id | first_name |
++----+------------+
+| 19 | Zhyn       |
++----+------------+
+1 row in set (0.0007 sec)
+==============================================================================================================================================================================
+
+64). Write a query to display the details of students whose name starts with a vowel.
+
+select * from student_data where first_name like 'a%' or first_name like 'e%' or first_name like 'o%'or first_name like 'i%'  
+or first_name like 'u%';
+select * from student_data where first_name rlike '^[a e i o u]';
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS    |
+|  4 | Anagha     | Ahuja     | Chennai   |  22 | 2018-12-12     | PASS    |
+|  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS    |
+| 22 | Emilio     | Rodriguez | Bangalore |  23 | 2020-02-23     | AWAITED |
++----+------------+-----------+-----------+-----+----------------+---------+
+6 rows in set (0.0007 sec)
+================================================================================================================================================================================
+
+65). Write a query to display the details of students whose name ends with a vowel.
+
+select * from student_data where first_name rlike '[a e i o u]$'
+select * from student_data where first_name like '%a' or first_name like '%e' or first_name like '%o'or first_name like '%i'
+                                                -> or first_name like '%u';
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED |
+| 22 | Emilio     | Rodriguez  | Bangalore |  23 | 2020-02-23     | AWAITED |
++----+------------+------------+-----------+-----+----------------+---------+
+10 rows in set (0.0007 sec)
+================================================================================================================================================================================
+
+66). Write a query to display the details of students whose name doesnot start and end with a vowel.
+
+select * from student_data where first_name not like 'a%' and first_name not like 'e%' and first_name not like 'i%' and 
+first_name not like 'o%' and first_name not like 'u%' and first_name not like '%a' and first_name not like '%e' and
+first_name not like '%o' and first_name not like '%u' and first_name not like '%i';
+select * from student_data where first_name not rlike '^[a e i o u]' and first_name not rlike '[a e i o u]$';
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+|  5 | Bishwas    | Bora      | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | PASS    |
+| 11 | Suhaaaaaas | Rai       | Bangalore |  27 | 2016-05-14     | PASS    |
+| 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 13 | Dilshan    | Gupta     | Jaipur    |  23 | 2014-02-07     | PASS    |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |
+| 15 | Tanveer    | Ahmed     | Chennai   |  23 | 2019-05-09     | PASS    |
+| 19 | Zhyn       | Jackman   | Bangalore |  24 | 2019-06-22     | PASS    |
+| 21 | Tushar     | Thammanna | Ahmedabad |  24 | 2019-03-06     | AWAITED |
++----+------------+-----------+-----------+-----+----------------+---------+
+9 rows in set (0.0009 sec)
+
+================================================================================================================================================================================
+
+67). Write a query to display the details of students whose name starts and ends with a vowel.
+INSERT INTO STUDENT_DATA VALUES(22,'Emilio','Rodriguez','Bangalore',23,'2020-02-23','AWAITED');
+
+select * from student_data where (first_name like 'a%' or first_name like 'e%' or first_name like 'i%' or 
+first_name like 'o%' or first_name like 'u%') and (first_name like '%a' or first_name like '%e' or
+first_name like '%o' or first_name like '%u' or first_name like '%i');
+select * from student_data where first_name rlike '^[a e i o u]' and first_name rlike '[a e i o u]$';
+select * from student_data where first_name rlike '^[a e i o u][a-z]*[a e i o u]$';
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  4 | Anagha     | Ahuja     | Chennai   |  22 | 2018-12-12     | PASS    |
+| 22 | Emilio     | Rodriguez | Bangalore |  23 | 2020-02-23     | AWAITED |
++----+------------+-----------+-----------+-----+----------------+---------+
+3 rows in set (0.0007 sec)
+================================================================================================================================================================================
+
+68). Write a query to display the details of students whose name starts with a vowel but doesnot end with a vowel.
+
+SELECT * FROM STUDENT_DATA WHERE (FIRST_NAME LIKE 'a%' or FIRST_NAME LIKE 'e%' or FIRST_NAME LIKE 'i%' or FIRST_NAME LIKE 'o%' or FIRST_NAME LIKE 'u%') and 
+(First_name not like '%a' and First_name not like '%e' and First_name not like '%i' and First_name not like '%o' and First_name not like '%u');
+select * from student_data where first_name rlike '^[a e i o u]' and first_name not rlike '[a e i o u]$';
++----+------------+-----------+-----------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result |
++----+------------+-----------+-----------+-----+----------------+--------+
+|  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS   |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS   |
+|  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS   |
++----+------------+-----------+-----------+-----+----------------+--------+
+3 rows in set (0.0007 sec)
+================================================================================================================================================================================
+
+69). Write a query to display the name and id of student whose name starts with a consonant and ends with a vowel.
+
+select id,first_name from student_data where (first_name not like 'a%' and first_name not like 'e%' and first_name not like 'i%' and first_name not like 'o%' and
+first_name not like 'u%') and (first_name like '%a' or first_name like '%e' or first_name like '%i' or first_name like '%o' or first_name like '%u');
+select id,first_name from student_data where first_name rlike '^[^a e i o u]' and first_name rlike'[a e i o u]$';
++----+------------+
+| id | first_name |
++----+------------+
+|  6 | Bimla      |
+|  9 | Ramya      |
+| 10 | Sharanya   |
+| 16 | Rupali     |
+| 17 | Deepika    |
+| 18 | deepika    |
+| 20 | Rishi      |
++----+------------+
+7 rows in set (0.0005 sec)
+
+================================================================================================================================================================================
+70). Write a query to display the details of the courses where there is zero enrollment.
+
+select distinct deg_id from enrollment;
++--------+
+| deg_id |
++--------+
+|   5001 |
+|   5002 |
+|   5003 |
+|   5004 |
+|   5005 |
+|   5007 |
+|   5009 |
+|   5010 |
++--------+
+8 rows in set (0.0035 sec)
+
+select * from degree_details where degree_id not in(select distinct deg_id from enrollment);
++-----------+-------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name             | Length_of_Course | Fees      | MIN_MARKS |
++-----------+-------------------------+------------------+-----------+-----------+
+|      5000 | Bachelor Of Commerce    |                3 | 200000.00 |        35 |
+|      5006 | Phd Technology          |                5 | 300000.00 |        50 |
+|      5008 | Phd Commerce            |                4 |  50000.00 |        45 |
+|      5011 | Assoc Bach Physics Hons |                3 |  75000.00 |        35 |
++-----------+-------------------------+------------------+-----------+-----------+
+4 rows in set (0.0010 sec)
+================================================================================================================================================================================
+     
+71). Write a query to display the degree_name, degree_id and count of students who have enrolled in that degree course.
+
+select d.degree_name,d.degree_id,count(*) as 'No.of Students Enrolled' from degree_details as d,enrollment as e
+where e.deg_id=d.degree_id group by d.degree_name,d.degree_id;
++------------------------+-----------+-------------------------+
+| degree_name            | degree_id | No.of Students Enrolled |
++------------------------+-----------+-------------------------+
+| Master Of Commerce     |      5001 |                       2 |
+| Bachelor Of Business   |      5002 |                       2 |
+| Master Of Business     |      5003 |                       1 |
+| Bachelor Of Technology |      5004 |                       3 |
+| Master Of Technology   |      5005 |                       1 |
+| Phd Business           |      5007 |                       4 |
+| MBBS                   |      5009 |                       1 |
+| MD                     |      5010 |                       2 |
++------------------------+-----------+-------------------------+
+8 rows in set (0.0066 sec)
+================================================================================================================================================================================
+
+72). Write a query to display the degree_name and degree_id of the course that has highest enrollment.
+select d.degree_name,d.degree_id from degree_details as d,enrollment as e
+where e.deg_id=d.degree_id group by d.degree_name,d.degree_id ORDER BY count(*) desc LIMIT 1;
+
++--------------+-----------+
+| degree_name  | degree_id |
++--------------+-----------+
+| Phd Business |      5007 |
++--------------+-----------+
+1 row in set (0.0007 sec)
+
+
+insert into enrollment values (22,63,5004); 
+
+select degree_name,degree_id from degree_details,enrollment where degree_id=deg_id group by degree_name,degree_id having count(*) IN  
+(select max(R1.count) from (select deg_id,count(*) as 'count' from enrollment group by deg_id) as R1);
+
+select degree_name,degree_id from degree_details,enrollment where degree_id=deg_id group by degree_name,degree_id having count(*) =
+(select max(R1.count) from (select deg_id,count(*) as 'count' from enrollment group by deg_id) as R1);
+
++------------------------+-----------+
+| degree_name            | degree_id |
++------------------------+-----------+
+| Bachelor Of Technology |      5004 |
+| Phd Business           |      5007 |
++------------------------+-----------+
+2 rows in set (0.0011 sec)
+================================================================================================================================================================================
+
+73). Write a query to display the degree_name and degree_id of the course that has least enrollment
+among the courses that have atleast one enrollment/among the courses present in the enrollment table.
+select d.degree_name,d.degree_id from degree_details as d,enrollment as e
+where e.deg_id=d.degree_id group by d.degree_name,d.degree_id ORDER BY count(*) LIMIT 1;
++--------------------+-----------+
+| degree_name        | degree_id |
++--------------------+-----------+
+| Master Of Business |      5003 |
++--------------------+-----------+
+1 row in set (0.0006 sec)
+================================================================================================================================================================================
+
+74). Write a query to display the maximum marks scored in all subjects taken together.
+ SELECT max(marks) from enrollment;
++------------+
+| max(marks) |
++------------+
+|         99 |
++------------+
+1 row in set (0.0060 sec)
+================================================================================================================================================================================
+      
+75). Write a query to display the minimum of marks scored by the students in all subjects taken together.
+select min(marks) from enrollment;
++------------+
+| min(marks) |
++------------+
+|         26 |
++------------+
+1 row in set (0.0005 sec)
+================================================================================================================================================================================
+      
+76). Write a query to display the sum of marks scored in all subjects taken together.
+select sum(marks) from enrollment;
++------------+
+| sum(marks) |
++------------+
+|        920 |
++------------+
+1 row in set (0.0004 sec)
+================================================================================================================================================================================
+      
+77). Write a query to display the average marks taken all subjects together.
+select avg(marks) from enrollment;
++------------+
+| avg(marks) |
++------------+
+|    57.5000 |
++------------+
+1 row in set (0.0005 sec)
+================================================================================================================================================================================
+
+78). Write a query to display the id, name of course along with maximum marks scored in each COURSE.
+SELECT d.degree_id,d.degree_name,max(e.marks) from degree_details as d,enrollment as e where
+d.degree_id=e.deg_id group by d.degree_id,d.degree_name;
++-----------+------------------------+--------------+
+| degree_id | degree_name            | max(e.marks) |
++-----------+------------------------+--------------+
+|      5007 | Phd Business           |           99 |
+|      5010 | MD                     |           76 |
+|      5002 | Bachelor Of Business   |           56 |
+|      5003 | Master Of Business     |           45 |
+|      5004 | Bachelor Of Technology |           81 |
+|      5001 | Master Of Commerce     |           75 |
+|      5005 | Master Of Technology   |           79 |
+|      5009 | MBBS                   |           30 |
++-----------+------------------------+--------------+
+8 rows in set (0.0007 sec)
+================================================================================================================================================================================
+      
+79). Write a query to display the id and name of the course along with minimum marks scored in each COURSE.
+
+SELECT d.degree_id,d.degree_name,min(e.marks) from degree_details as d,enrollment as e
+where d.degree_id=e.deg_id group by d.degree_id,d.degree_name;
++-----------+------------------------+--------------+
+| degree_id | degree_name            | min(e.marks) |
++-----------+------------------------+--------------+
+|      5007 | Phd Business           |           55 |
+|      5010 | MD                     |           41 |
+|      5002 | Bachelor Of Business   |           26 |
+|      5003 | Master Of Business     |           45 |
+|      5004 | Bachelor Of Technology |           31 |
+|      5001 | Master Of Commerce     |           28 |
+|      5005 | Master Of Technology   |           79 |
+|      5009 | MBBS                   |           30 |
++-----------+------------------------+--------------+
+8 rows in set (0.0007 sec) 
+============================================================================================================================================================================================
+
+80). Write a query to display the id and name of the course along with minimum marks scored in each COURSE where minimum marks is 
+lesser than 50.
+SELECT d.degree_id,d.degree_name,min(e.marks) from degree_details as d,enrollment as e
+where d.degree_id=e.deg_id group by d.degree_id,d.degree_name having min(e.marks)<50;
++-----------+------------------------+--------------+
+| degree_id | degree_name            | min(e.marks) |
++-----------+------------------------+--------------+
+|      5010 | MD                     |           41 |
+|      5002 | Bachelor Of Business   |           26 |
+|      5003 | Master Of Business     |           45 |
+|      5004 | Bachelor Of Technology |           31 |
+|      5001 | Master Of Commerce     |           28 |
+|      5009 | MBBS                   |           30 |
++-----------+------------------------+--------------+
+6 rows in set (0.0007 sec)
+============================================================================================================================================================================================
+
+81). Write a query to display the id and name of the course along with minimum marks scored in each COURSE where marks is lesser than 50.
+SELECT d.degree_id,d.degree_name,min(e.marks) from degree_details as d,enrollment as e
+where d.degree_id=e.deg_id and e.marks<50 group by d.degree_id,d.degree_name having min(e.marks)<50;
++-----------+------------------------+--------------+
+| degree_id | degree_name            | min(e.marks) |
++-----------+------------------------+--------------+
+|      5002 | Bachelor Of Business   |           26 |
+|      5003 | Master Of Business     |           45 |
+|      5004 | Bachelor Of Technology |           31 |
+|      5001 | Master Of Commerce     |           28 |
+|      5009 | MBBS                   |           30 |
+|      5010 | MD                     |           41 |
++-----------+------------------------+--------------+
+6 rows in set (0.0006 sec)
+================================================================================================================================================================================
+
+82).Write a query to display the details of the cross product table of degree_details and enrollment 
+    along with minimum,maximum,average marks scored and count of rows in each group.
+
+SELECT *,min(marks),max(marks),avg(marks),count(*) FROM DEGREE_DETAILS,ENROLLMENT WHERE degree_id=deg_id
+group by Degree_ID,DEGREE_NAME,Length_of_course,Fees,Min_Marks,Sid,marks,deg_id order by deg_id;
++-----------+------------------------+------------------+-----------+-----------+-----+-------+--------+------------+------------+------------+----------+
+| Degree_ID | degree_name            | Length_of_Course | Fees      | MIN_MARKS | sid | marks | deg_id | min(marks) | max(marks) | avg(marks) | count(*) |
++-----------+------------------------+------------------+-----------+-----------+-----+-------+--------+------------+------------+------------+----------+
+|      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |   9 |    28 |   5001 |         28 |         28 |    28.0000 |        1 |
+|      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |  16 |    75 |   5001 |         75 |         75 |    75.0000 |        1 |
+|      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |   5 |    26 |   5002 |         26 |         26 |    26.0000 |        1 |
+|      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |  11 |    56 |   5002 |         56 |         56 |    56.0000 |        1 |
+|      5003 | Master Of Business     |                3 | 500000.00 |        50 |   6 |    45 |   5003 |         45 |         45 |    45.0000 |        1 |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |   7 |    81 |   5004 |         81 |         81 |    81.0000 |        1 |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |   8 |    31 |   5004 |         31 |         31 |    31.0000 |        1 |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |  19 |    71 |   5004 |         71 |         71 |    71.0000 |        1 |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |  22 |    63 |   5004 |         63 |         63 |    63.0000 |        1 |
+|      5005 | Master Of Technology   |                3 | 100000.00 |        40 |  12 |    79 |   5005 |         79 |         79 |    79.0000 |        1 |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |   1 |    99 |   5007 |         99 |         99 |    99.0000 |        1 |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |   2 |    66 |   5007 |         66 |         66 |    66.0000 |        1 |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |  13 |    61 |   5007 |         61 |         61 |    61.0000 |        1 |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |  17 |    55 |   5007 |         55 |         55 |    55.0000 |        1 |
+|      5009 | MBBS                   |                5 | 100000.00 |        40 |  14 |    30 |   5009 |         30 |         30 |    30.0000 |        1 |
+|      5010 | MD                     |                4 | 500000.00 |        35 |   3 |    76 |   5010 |         76 |         76 |    76.0000 |        1 |
+|      5010 | MD                     |                4 | 500000.00 |        35 |  15 |    41 |   5010 |         41 |         41 |    41.0000 |        1 |
++-----------+------------------------+------------------+-----------+-----------+-----+-------+--------+------------+------------+------------+----------+
+17 rows in set (0.0008 sec)
+================================================================================================================================================================================
+
+83). Inner Join Student_data with enrollment table on id=sid and display all the data.
+ SELECT * FROM
+ Student_data AS s
+ Inner Join
+ Enrollment as e
+ ON s.ID=e.SID;
++----+------------+-----------+-----------+-----+----------------+---------+-----+-------+--------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  | sid | marks | deg_id |
++----+------------+-----------+-----------+-----+----------------+---------+-----+-------+--------+
+|  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS    |   1 |    99 |   5007 |
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |   2 |    66 |   5007 |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS    |   3 |    76 |   5010 |
+|  5 | Bishwas    | Bora      | Ahmedabad |  44 | 2015-02-01     | AWAITED |   5 |    26 |   5002 |
+|  6 | Bimla      | Bhatt     | Ahmedabad |  21 | 2021-03-21     | FAIL    |   6 |    45 |   5003 |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | PASS    |   7 |    81 |   5004 |
+|  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS    |   8 |    31 |   5004 |
+|  9 | Ramya      | Bose      | Bangalore |  25 | 2019-09-25     | FAIL    |   9 |    28 |   5001 |
+| 11 | Suhaaaaaas | Rai       | Bangalore |  27 | 2016-05-14     | PASS    |  11 |    56 |   5002 |
+| 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS    |  12 |    79 |   5005 |
+| 13 | Dilshan    | Gupta     | Jaipur    |  23 | 2014-02-07     | PASS    |  13 |    61 |   5007 |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |  14 |    30 |   5009 |
+| 15 | Tanveer    | Ahmed     | Chennai   |  23 | 2019-05-09     | PASS    |  15 |    41 |   5010 |
+| 16 | Rupali     | Gupta     | Chennai   |  21 | 2020-06-23     | PASS    |  16 |    75 |   5001 |
+| 17 | Deepika    | Verma     | Ahmedabad |  26 | 2017-08-22     | PASS    |  17 |    55 |   5007 |
+| 19 | Zhyn       | Jackman   | Bangalore |  24 | 2019-06-22     | PASS    |  19 |    71 |   5004 |
+| 22 | Emilio     | Rodriguez | Bangalore |  23 | 2020-02-23     | AWAITED |  22 |    63 |   5004 |
++----+------------+-----------+-----------+-----+----------------+---------+-----+-------+--------+
+17 rows in set (0.0008 sec)
+===================================================================================================================================================================================
+    
+84). Left join Degree_details with Enrollment then inner join with Student_data on id=sid and deg_id=degree_id. Show all the data.
+SELECT * FROM 
+Degree_details as d 
+Left Join 
+Enrollment as e 
+ON d.degree_id=e.deg_id 
+Inner Join 
+Student_data as s 
+on s.id=e.sid;
++-----------+------------------------+------------------+-----------+-----------+-----+-------+--------+----+------------+-----------+-----------+-----+----------------+---------+
+| Degree_ID | degree_name            | Length_of_Course | Fees      | MIN_MARKS | sid | marks | deg_id | ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++-----------+------------------------+------------------+-----------+-----------+-----+-------+--------+----+------------+-----------+-----------+-----+----------------+---------+
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |   1 |    99 |   5007 |  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS    |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |   2 |    66 |   5007 |  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |
+|      5010 | MD                     |                4 | 500000.00 |        35 |   3 |    76 |   5010 |  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS    |
+|      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |   5 |    26 |   5002 |  5 | Bishwas    | Bora      | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|      5003 | Master Of Business     |                3 | 500000.00 |        50 |   6 |    45 |   5003 |  6 | Bimla      | Bhatt     | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |   7 |    81 |   5004 |  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | PASS    |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |   8 |    31 |   5004 |  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS    |
+|      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |   9 |    28 |   5001 |  9 | Ramya      | Bose      | Bangalore |  25 | 2019-09-25     | FAIL    |
+|      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |  11 |    56 |   5002 | 11 | Suhaaaaaas | Rai       | Bangalore |  27 | 2016-05-14     | PASS    |
+|      5005 | Master Of Technology   |                3 | 100000.00 |        40 |  12 |    79 |   5005 | 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS    |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |  13 |    61 |   5007 | 13 | Dilshan    | Gupta     | Jaipur    |  23 | 2014-02-07     | PASS    |
+|      5009 | MBBS                   |                5 | 100000.00 |        40 |  14 |    30 |   5009 | 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |
+|      5010 | MD                     |                4 | 500000.00 |        35 |  15 |    41 |   5010 | 15 | Tanveer    | Ahmed     | Chennai   |  23 | 2019-05-09     | PASS    |
+|      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |  16 |    75 |   5001 | 16 | Rupali     | Gupta     | Chennai   |  21 | 2020-06-23     | PASS    |
+|      5007 | Phd Business           |                5 |  90000.00 |        50 |  17 |    55 |   5007 | 17 | Deepika    | Verma     | Ahmedabad |  26 | 2017-08-22     | PASS    |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |  19 |    71 |   5004 | 19 | Zhyn       | Jackman   | Bangalore |  24 | 2019-06-22     | PASS    |
+|      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |  22 |    63 |   5004 | 22 | Emilio     | Rodriguez | Bangalore |  23 | 2020-02-23     | AWAITED |
++-----------+------------------------+------------------+-----------+-----------+-----+-------+--------+----+------------+-----------+-----------+-----+----------------+---------+
+17 rows in set (0.0011 sec)
+============================================================================================================================================================================================================
+
+85). Right join student_data with Enrollment on id=sid. Then right join with Degree_details on degree_id=deg_id. 
+
+select * from Enrollment as e Right Join student_data as s on s.id=e.sid right join degree_details as d on d.degree_id=e.deg_id;
++------+-------+--------+------+------------+-----------+-----------+------+----------------+---------+-----------+-------------------------+------------------+-----------+-----------+
+| sid  | marks | deg_id | ID   | First_Name | Last_Name | CITY      | Age  | Admission_date | Result  | Degree_ID | degree_name             | Length_of_Course | Fees      | MIN_MARKS |
++------+-------+--------+------+------------+-----------+-----------+------+----------------+---------+-----------+-------------------------+------------------+-----------+-----------+
+| NULL |  NULL |   NULL | NULL | NULL       | NULL      | NULL      | NULL | NULL           | NULL    |      5000 | Bachelor Of Commerce    |                3 | 200000.00 |        35 |
+|    9 |    28 |   5001 |    9 | Ramya      | Bose      | Bangalore |   25 | 2019-09-25     | FAIL    |      5001 | Master Of Commerce      |                3 | 250000.00 |        40 |
+|   16 |    75 |   5001 |   16 | Rupali     | Gupta     | Chennai   |   21 | 2020-06-23     | PASS    |      5001 | Master Of Commerce      |                3 | 250000.00 |        40 |
+|    5 |    26 |   5002 |    5 | Bishwas    | Bora      | Ahmedabad |   44 | 2015-02-01     | AWAITED |      5002 | Bachelor Of Business    |                3 | 600000.00 |        35 |
+|   11 |    56 |   5002 |   11 | Suhaaaaaas | Rai       | Bangalore |   27 | 2016-05-14     | PASS    |      5002 | Bachelor Of Business    |                3 | 600000.00 |        35 |
+|    6 |    45 |   5003 |    6 | Bimla      | Bhatt     | Ahmedabad |   21 | 2021-03-21     | FAIL    |      5003 | Master Of Business      |                3 | 500000.00 |        50 |
+|    7 |    81 |   5004 |    7 | Brijesh    | Kumar     | Jaipur    |   22 | 2021-01-01     | PASS    |      5004 | Bachelor Of Technology  |                4 | 400000.00 |        35 |
+|    8 |    31 |   5004 |    8 | Arjun      | Shet      | Bangalore |   19 | 2020-12-31     | PASS    |      5004 | Bachelor Of Technology  |                4 | 400000.00 |        35 |
+|   19 |    71 |   5004 |   19 | Zhyn       | Jackman   | Bangalore |   24 | 2019-06-22     | PASS    |      5004 | Bachelor Of Technology  |                4 | 400000.00 |        35 |
+|   22 |    63 |   5004 |   22 | Emilio     | Rodriguez | Bangalore |   23 | 2020-02-23     | AWAITED |      5004 | Bachelor Of Technology  |                4 | 400000.00 |        35 |
+|   12 |    79 |   5005 |   12 | Goutham    | Sharma    | Ahmedabad |   26 | 2020-07-20     | PASS    |      5005 | Master Of Technology    |                3 | 100000.00 |        40 |
+| NULL |  NULL |   NULL | NULL | NULL       | NULL      | NULL      | NULL | NULL           | NULL    |      5006 | Phd Technology          |                5 | 300000.00 |        50 |
+|    1 |    99 |   5007 |    1 | Akash      | Kumar     | Jaipur    |   24 | 2020-03-28     | PASS    |      5007 | Phd Business            |                5 |  90000.00 |        50 |
+|    2 |    66 |   5007 |    2 | Aaishwarya | Ray       | Mumbai    |   32 | 2020-05-29     | PASS    |      5007 | Phd Business            |                5 |  90000.00 |        50 |
+|   13 |    61 |   5007 |   13 | Dilshan    | Gupta     | Jaipur    |   23 | 2014-02-07     | PASS    |      5007 | Phd Business            |                5 |  90000.00 |        50 |
+|   17 |    55 |   5007 |   17 | Deepika    | Verma     | Ahmedabad |   26 | 2017-08-22     | PASS    |      5007 | Phd Business            |                5 |  90000.00 |        50 |
+| NULL |  NULL |   NULL | NULL | NULL       | NULL      | NULL      | NULL | NULL           | NULL    |      5008 | Phd Commerce            |                4 |  50000.00 |        45 |
+|   14 |    30 |   5009 |   14 | Sachin     | Acharya   | Bangalore |   22 | 2020-01-01     | PASS    |      5009 | MBBS                    |                5 | 100000.00 |        40 |
+|    3 |    76 |   5010 |    3 | Abhay      | Chander   | Mumbai    |   27 | 2019-08-07     | PASS    |      5010 | MD                      |                4 | 500000.00 |        35 |
+|   15 |    41 |   5010 |   15 | Tanveer    | Ahmed     | Chennai   |   23 | 2019-05-09     | PASS    |      5010 | MD                      |                4 | 500000.00 |        35 |
+| NULL |  NULL |   NULL | NULL | NULL       | NULL      | NULL      | NULL | NULL           | NULL    |      5011 | Assoc Bach Physics Hons |                3 |  75000.00 |        35 |
++------+-------+--------+------+------------+-----------+-----------+------+----------------+---------+-----------+-------------------------+------------------+-----------+-----------+
+21 rows in set (0.0012 sec)
+==============================================================================================================================================================================================
+
+86). Inner join Student_data with Enrollment where marks > 75. Display Student ID and result from Student_data and Marks from enrollment.
+select s.id,s.result,e.marks from
+student_data as s
+inner join
+enrollment as e
+where marks>75;
++----+---------+-------+
+| id | result  | marks |
++----+---------+-------+
+|  1 | PASS    |    79 |
+|  1 | PASS    |    81 |
+|  1 | PASS    |    76 |
+|  1 | PASS    |    99 |
+|  2 | PASS    |    79 |
+|  2 | PASS    |    81 |
+|  2 | PASS    |    76 |
+|  2 | PASS    |    99 |
+|  3 | PASS    |    79 |
+|  3 | PASS    |    81 |
+|  3 | PASS    |    76 |
+|  3 | PASS    |    99 |
+|  4 | PASS    |    79 |
+|  4 | PASS    |    81 |
+|  4 | PASS    |    76 |
+|  4 | PASS    |    99 |
+|  5 | AWAITED |    79 |
+|  5 | AWAITED |    81 |
+|  5 | AWAITED |    76 |
+|  5 | AWAITED |    99 |
+|  6 | FAIL    |    79 |
+|  6 | FAIL    |    81 |
+|  6 | FAIL    |    76 |
+|  6 | FAIL    |    99 |
+|  7 | PASS    |    79 |
+|  7 | PASS    |    81 |
+|  7 | PASS    |    76 |
+|  7 | PASS    |    99 |
+|  8 | PASS    |    79 |
+|  8 | PASS    |    81 |
+|  8 | PASS    |    76 |
+|  8 | PASS    |    99 |
+|  9 | FAIL    |    79 |
+|  9 | FAIL    |    81 |
+|  9 | FAIL    |    76 |
+|  9 | FAIL    |    99 |
+| 10 | FAIL    |    79 |
+| 10 | FAIL    |    81 |
+| 10 | FAIL    |    76 |
+| 10 | FAIL    |    99 |
+| 11 | PASS    |    79 |
+| 11 | PASS    |    81 |
+| 11 | PASS    |    76 |
+| 11 | PASS    |    99 |
+| 12 | PASS    |    79 |
+| 12 | PASS    |    81 |
+| 12 | PASS    |    76 |
+| 12 | PASS    |    99 |
+| 13 | PASS    |    79 |
+| 13 | PASS    |    81 |
+| 13 | PASS    |    76 |
+| 13 | PASS    |    99 |
+| 14 | PASS    |    79 |
+| 14 | PASS    |    81 |
+| 14 | PASS    |    76 |
+| 14 | PASS    |    99 |
+| 15 | PASS    |    79 |
+| 15 | PASS    |    81 |
+| 15 | PASS    |    76 |
+| 15 | PASS    |    99 |
+| 16 | PASS    |    79 |
+| 16 | PASS    |    81 |
+| 16 | PASS    |    76 |
+| 16 | PASS    |    99 |
+| 17 | PASS    |    79 |
+| 17 | PASS    |    81 |
+| 17 | PASS    |    76 |
+| 17 | PASS    |    99 |
+| 18 | PASS    |    79 |
+| 18 | PASS    |    81 |
+| 18 | PASS    |    76 |
+| 18 | PASS    |    99 |
+| 19 | PASS    |    79 |
+| 19 | PASS    |    81 |
+| 19 | PASS    |    76 |
+| 19 | PASS    |    99 |
+| 20 | AWAITED |    79 |
+| 20 | AWAITED |    81 |
+| 20 | AWAITED |    76 |
+| 20 | AWAITED |    99 |
+| 21 | AWAITED |    79 |
+| 21 | AWAITED |    81 |
+| 21 | AWAITED |    76 |
+| 21 | AWAITED |    99 |
+| 22 | AWAITED |    79 |
+| 22 | AWAITED |    81 |
+| 22 | AWAITED |    76 |
+| 22 | AWAITED |    99 |
++----+---------+-------+
+88 rows in set (0.0007 sec)
+=================================================================================================================================================================================
+
+87). Full join Student_data with Enrollment. Display all the data.
+select * from
+Student_data as s
+Left Join
+Enrollment as e
+on s.id=e.sid
+UNION
+select * from
+Student_data as s
+Right Join
+Enrollment as e
+on s.id=e.sid;
++----+------------+------------+-----------+-----+----------------+---------+------+-------+--------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  | sid  | marks | deg_id |
++----+------------+------------+-----------+-----+----------------+---------+------+-------+--------+
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |    1 |    99 |   5007 |
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |    2 |    66 |   5007 |
+|  3 | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | PASS    |    3 |    76 |   5010 |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    | NULL |  NULL |   NULL |
+|  5 | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |    5 |    26 |   5002 |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |    6 |    45 |   5003 |
+|  7 | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | PASS    |    7 |    81 |   5004 |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |    8 |    31 |   5004 |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |    9 |    28 |   5001 |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    | NULL |  NULL |   NULL |
+| 11 | Suhaaaaaas | Rai        | Bangalore |  27 | 2016-05-14     | PASS    |   11 |    56 |   5002 |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |   12 |    79 |   5005 |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |   13 |    61 |   5007 |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |   14 |    30 |   5009 |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | PASS    |   15 |    41 |   5010 |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |   16 |    75 |   5001 |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |   17 |    55 |   5007 |
+| 18 | deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    | NULL |  NULL |   NULL |
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | PASS    |   19 |    71 |   5004 |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED | NULL |  NULL |   NULL |
+| 21 | Tushar     | Thammanna  | Ahmedabad |  24 | 2019-03-06     | AWAITED | NULL |  NULL |   NULL |
+| 22 | Emilio     | Rodriguez  | Bangalore |  23 | 2020-02-23     | AWAITED |   22 |    63 |   5004 |
++----+------------+------------+-----------+-----+----------------+---------+------+-------+--------+
+22 rows in set (0.0010 sec)
+=================================================================================================================================================================================
+
+88). Full join Degree_details with enrollment table. Display all data where fees < 200000. 
+select * from degree_details as d Left Join Enrollment as e ON d.degree_id = e.deg_id where d.fees<200000
+UNION
+Select * from Degree_details as d Right Join Enrollment as e ON d.degree_id=e.deg_id where d.fees<200000;
++-----------+-------------------------+------------------+-----------+-----------+------+-------+--------+
+| Degree_ID | degree_name             | Length_of_Course | Fees      | MIN_MARKS | sid  | marks | deg_id |
++-----------+-------------------------+------------------+-----------+-----------+------+-------+--------+
+|      5005 | Master Of Technology    |                3 | 100000.00 |        40 |   12 |    79 |   5005 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |    1 |    99 |   5007 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |    2 |    66 |   5007 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |   13 |    61 |   5007 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |   17 |    55 |   5007 |
+|      5008 | Phd Commerce            |                4 |  50000.00 |        45 | NULL |  NULL |   NULL |
+|      5009 | MBBS                    |                5 | 100000.00 |        40 |   14 |    30 |   5009 |
+|      5011 | Assoc Bach Physics Hons |                3 |  75000.00 |        35 | NULL |  NULL |   NULL |
++-----------+-------------------------+------------------+-----------+-----------+------+-------+--------+
+8 rows in set (0.0010 sec)
+
+=================================================================================================================================================================================
+
+89). Display the average marks scored by the students who joined the courses across different age groups. Order the output in descending order of average marks.
+
+SELECT AGE,avg(MARKS) FROM
+Student_data as s
+inner join
+ENROLLMENT AS e
+on s.id=e.sid
+group by age
+order by avg(marks) desc;
++-----+------------+
+| AGE | avg(MARKS) |
++-----+------------+
+|  24 |    85.0000 |
+|  26 |    67.0000 |
+|  32 |    66.0000 |
+|  27 |    66.0000 |
+|  21 |    60.0000 |
+|  22 |    55.5000 |
+|  23 |    55.0000 |
+|  19 |    31.0000 |
+|  25 |    28.0000 |
+|  44 |    26.0000 |
++-----+------------+
+10 rows in set (0.0006 sec)
+
+=================================================================================================================================================================================
+
+90). Write a query to display the degree id,degree name,fees along sum of marks scored by the students in the college in each subject.
+select d.degree_id,d.degree_name,d.fees,sum(e.marks) from degree_details as d left join
+enrollment as e on d.degree_id = e.deg_id group by d.degree_id,d.degree_name,d.fees;
++-----------+-------------------------+-----------+--------------+
+| degree_id | degree_name             | fees      | sum(e.marks) |
++-----------+-------------------------+-----------+--------------+
+|      5000 | Bachelor Of Commerce    | 200000.00 |         NULL |
+|      5001 | Master Of Commerce      | 250000.00 |          103 |
+|      5002 | Bachelor Of Business    | 600000.00 |           82 |
+|      5003 | Master Of Business      | 500000.00 |           45 |
+|      5004 | Bachelor Of Technology  | 400000.00 |          246 |
+|      5005 | Master Of Technology    | 100000.00 |           79 |
+|      5006 | Phd Technology          | 300000.00 |         NULL |
+|      5007 | Phd Business            |  90000.00 |          281 |
+|      5008 | Phd Commerce            |  50000.00 |         NULL |
+|      5009 | MBBS                    | 100000.00 |           30 |
+|      5010 | MD                      | 500000.00 |          117 |
+|      5011 | Assoc Bach Physics Hons |  75000.00 |         NULL |
++-----------+-------------------------+-----------+--------------+
+12 rows in set (0.0005 sec)
+
+=================================================================================================================================================================================
+      
+91). Write a query to display the average marks scored in each subject along with the name, id, fees of the subject where there is atleast 1 enrollment.
+select d.degree_name,d.degree_id,d.fees,avg(marks) from enrollment as e inner join degree_details as d on d.degree_id = e.deg_id
+group by d.degree_name,d.degree_id,d.fees;
++------------------------+-----------+-----------+------------+
+| degree_name            | degree_id | fees      | avg(marks) |
++------------------------+-----------+-----------+------------+
+| Phd Business           |      5007 |  90000.00 |    70.2500 |
+| MD                     |      5010 | 500000.00 |    58.5000 |
+| Bachelor Of Business   |      5002 | 600000.00 |    41.0000 |
+| Master Of Business     |      5003 | 500000.00 |    45.0000 |
+| Bachelor Of Technology |      5004 | 400000.00 |    61.5000 |
+| Master Of Commerce     |      5001 | 250000.00 |    51.5000 |
+| Master Of Technology   |      5005 | 100000.00 |    79.0000 |
+| MBBS                   |      5009 | 100000.00 |    30.0000 |
++------------------------+-----------+-----------+------------+
+8 rows in set (0.0008 sec)
+=================================================================================================================================================================================
+      
+92). Write a query to display the id,name,age and marks of the students who have scored more than the overall
+average in descending order of the marks scored.
+ select s.first_name,s.id, s.age,e.marks from student_data as s inner join enrollment as e
+ on s.id=e.sid and e.marks > (select avg(marks) from enrollment) order by e.marks desc;
++------------+----+-----+-------+
+| first_name | id | age | marks |
++------------+----+-----+-------+
+| Akash      |  1 |  24 |    99 |
+| Brijesh    |  7 |  22 |    81 |
+| Goutham    | 12 |  26 |    79 |
+| Abhay      |  3 |  27 |    76 |
+| Rupali     | 16 |  21 |    75 |
+| Zhyn       | 19 |  24 |    71 |
+| Aaishwarya |  2 |  32 |    66 |
+| Emilio     | 22 |  23 |    63 |
+| Dilshan    | 13 |  23 |    61 |
++------------+----+-----+-------+
+9 rows in set (0.0008 sec)
+===============================================================================================================================================================================
+      
+93). Write a query to display the maximum of sum of scores scored by students in each subject.
+ select max(R1.SM) from (select deg_id,sum(marks) as 'SM' from enrollment group by deg_id) AS R1;
++------------+
+| max(R1.SM) |
++------------+
+|        281 |
++------------+
+1 row in set (0.0009 sec)
+===============================================================================================================================================================================
+
+94). Write a query to display the minimum of sum of scores scored by students in each subject.
+ Select min(R1.SM)from (select deg_id,sum(marks) as 'SM' from enrollment group by deg_id) as R1;
++------------+
+| min(R1.SM) |
++------------+
+|         30 |
++------------+
+1 row in set (0.0005 sec)
+===============================================================================================================================================================================
+
+95). Write a query to display id and name of students who have not enrolled in any course using joins.
+select s.first_name,s.id from
+student_data as s
+left join 
+enrollment as e
+on s.id=e.sid
+where isnull(e.sid);
++------------+----+
+| first_name | id |
++------------+----+
+| Anagha     |  4 |
+| Sharanya   | 10 |
+| deepika    | 18 |
+| Rishi      | 20 |
+| Tushar     | 21 |
++------------+----+
+5 rows in set (0.0005 sec)
+================================================================================================================================================================================
+
+96). Write a query to display the first name, id, degree_name, marks and results of top 3 students overall using Joins.
+select s.first_name,s.id,d.degree_name,e.marks,s.result from
+student_data as s
+inner join
+enrollment as e
+on s.id=e.sid
+inner join 
+degree_details as d
+on d.degree_id = e.deg_id
+order by e.marks desc LIMIT 3;
++------------+----+------------------------+-------+--------+
+| first_name | id | degree_name            | marks | result |
++------------+----+------------------------+-------+--------+
+| Akash      |  1 | Phd Business           |    99 | PASS   |
+| Brijesh    |  7 | Bachelor Of Technology |    81 | PASS   |
+| Goutham    | 12 | Master Of Technology   |    79 | PASS   |
++------------+----+------------------------+-------+--------+
+3 rows in set (0.0005 sec)
+================================================================================================================================================================================
+      
+97). Write a query to display the name, id, degree_name, marks and results of bottom 5 students overall.
+SELECT * from (select s.first_name,s.id,d.degree_name,e.marks,s.result from
+student_data as s
+inner join
+enrollment as e
+on s.id=e.sid
+inner join 
+degree_details as d
+on d.degree_id = e.deg_id
+order by e.marks LIMIT 5) as R1 order by R1.marks desc;
++------------+----+------------------------+-------+---------+
+| first_name | id | degree_name            | marks | result  |
++------------+----+------------------------+-------+---------+
+| Tanveer    | 15 | MD                     |    41 | PASS    |
+| Arjun      |  8 | Bachelor Of Technology |    31 | PASS    |
+| Sachin     | 14 | MBBS                   |    30 | PASS    |
+| Ramya      |  9 | Master Of Commerce     |    28 | FAIL    |
+| Bishwas    |  5 | Bachelor Of Business   |    26 | AWAITED |
++------------+----+------------------------+-------+---------+
+5 rows in set (0.0006 sec)
+
+================================================================================================================================================================================
+
+98). Write a query to display all the details of the student and all the details of their course along with marks scored for those 
+who have passed in descending order of age.
+select s.*,d.*,e.marks from
+student_data as s
+inner join 
+enrollment as e 
+inner join
+degree_details as d
+on d.degree_id = e.deg_id and s.id=e.sid
+where s.result='PASS' order by age desc;
++----+------------+-----------+-----------+-----+----------------+--------+-----------+------------------------+------------------+-----------+-----------+-------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result | Degree_ID | degree_name            | Length_of_Course | Fees      | MIN_MARKS | marks |
++----+------------+-----------+-----------+-----+----------------+--------+-----------+------------------------+------------------+-----------+-----------+-------+
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS   |      5007 | Phd Business           |                5 |  90000.00 |        50 |    66 |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS   |      5010 | MD                     |                4 | 500000.00 |        35 |    76 |
+| 11 | Suhaaaaaas | Rai       | Bangalore |  27 | 2016-05-14     | PASS   |      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |    56 |
+| 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS   |      5005 | Master Of Technology   |                3 | 100000.00 |        40 |    79 |
+| 17 | Deepika    | Verma     | Ahmedabad |  26 | 2017-08-22     | PASS   |      5007 | Phd Business           |                5 |  90000.00 |        50 |    55 |
+|  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS   |      5007 | Phd Business           |                5 |  90000.00 |        50 |    99 |
+| 19 | Zhyn       | Jackman   | Bangalore |  24 | 2019-06-22     | PASS   |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |    71 |
+| 13 | Dilshan    | Gupta     | Jaipur    |  23 | 2014-02-07     | PASS   |      5007 | Phd Business           |                5 |  90000.00 |        50 |    61 |
+| 15 | Tanveer    | Ahmed     | Chennai   |  23 | 2019-05-09     | PASS   |      5010 | MD                     |                4 | 500000.00 |        35 |    41 |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | PASS   |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |    81 |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS   |      5009 | MBBS                   |                5 | 100000.00 |        40 |    30 |
+| 16 | Rupali     | Gupta     | Chennai   |  21 | 2020-06-23     | PASS   |      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |    75 |
+|  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS   |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |    31 |
++----+------------+-----------+-----------+-----+----------------+--------+-----------+------------------------+------------------+-----------+-----------+-------+
+13 rows in set (0.0006 sec)
+==================================================================================================================================================================================================
+     
+99). Write a query to display all the details of students and their course who have failed in ascending order of marks.
+select s.*,d.*,e.marks from
+student_data as s
+inner join 
+enrollment as e 
+inner join
+degree_details as d
+on d.degree_id = e.deg_id and s.id=e.sid
+where s.result='FAIL' order by e.marks;
++----+------------+-----------+-----------+-----+----------------+--------+-----------+--------------------+------------------+-----------+-----------+-------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result | Degree_ID | degree_name        | Length_of_Course | Fees      | MIN_MARKS | marks |
++----+------------+-----------+-----------+-----+----------------+--------+-----------+--------------------+------------------+-----------+-----------+-------+
+|  9 | Ramya      | Bose      | Bangalore |  25 | 2019-09-25     | FAIL   |      5001 | Master Of Commerce |                3 | 250000.00 |        40 |    28 |
+|  6 | Bimla      | Bhatt     | Ahmedabad |  21 | 2021-03-21     | FAIL   |      5003 | Master Of Business |                3 | 500000.00 |        50 |    45 |
++----+------------+-----------+-----------+-----+----------------+--------+-----------+--------------------+------------------+-----------+-----------+-------+
+2 rows in set (0.0031 sec)
+===================================================================================================================================================================================================
+
+100). Display details of students and degree courses only for those who have taken the courses.
++----+------------+-----------+-----------+-----+----------------+---------+-----------+------------------------+------------------+-----------+-----------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  | Degree_ID | degree_name            | Length_of_Course | Fees      | MIN_MARKS |
++----+------------+-----------+-----------+-----+----------------+---------+-----------+------------------------+------------------+-----------+-----------+
+|  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS    |      5007 | Phd Business           |                5 |  90000.00 |        50 |
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |      5007 | Phd Business           |                5 |  90000.00 |        50 |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS    |      5010 | MD                     |                4 | 500000.00 |        35 |
+|  5 | Bishwas    | Bora      | Ahmedabad |  44 | 2015-02-01     | AWAITED |      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |
+|  6 | Bimla      | Bhatt     | Ahmedabad |  21 | 2021-03-21     | FAIL    |      5003 | Master Of Business     |                3 | 500000.00 |        50 |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | PASS    |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |
+|  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS    |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |
+|  9 | Ramya      | Bose      | Bangalore |  25 | 2019-09-25     | FAIL    |      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |
+| 11 | Suhaaaaaas | Rai       | Bangalore |  27 | 2016-05-14     | PASS    |      5002 | Bachelor Of Business   |                3 | 600000.00 |        35 |
+| 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS    |      5005 | Master Of Technology   |                3 | 100000.00 |        40 |
+| 13 | Dilshan    | Gupta     | Jaipur    |  23 | 2014-02-07     | PASS    |      5007 | Phd Business           |                5 |  90000.00 |        50 |
+| 14 | Sachin     | Acharya   | Bangalore |  22 | 2020-01-01     | PASS    |      5009 | MBBS                   |                5 | 100000.00 |        40 |
+| 15 | Tanveer    | Ahmed     | Chennai   |  23 | 2019-05-09     | PASS    |      5010 | MD                     |                4 | 500000.00 |        35 |
+| 16 | Rupali     | Gupta     | Chennai   |  21 | 2020-06-23     | PASS    |      5001 | Master Of Commerce     |                3 | 250000.00 |        40 |
+| 17 | Deepika    | Verma     | Ahmedabad |  26 | 2017-08-22     | PASS    |      5007 | Phd Business           |                5 |  90000.00 |        50 |
+| 19 | Zhyn       | Jackman   | Bangalore |  24 | 2019-06-22     | PASS    |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |
+| 22 | Emilio     | Rodriguez | Bangalore |  23 | 2020-02-23     | AWAITED |      5004 | Bachelor Of Technology |                4 | 400000.00 |        35 |
++----+------------+-----------+-----------+-----+----------------+---------+-----------+------------------------+------------------+-----------+-----------+
+17 rows in set (0.0006 sec)
+
+===================================================================================================================================================================================================
+101). Write a query to display only the Rows of Student_data table that have even ID.
+select * from student_data where mod(id,2)=0;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 18 | deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED |
+| 22 | Emilio     | Rodriguez  | Bangalore |  23 | 2020-02-23     | AWAITED |
++----+------------+------------+-----------+-----+----------------+---------+
+11 rows in set (0.0005 sec)
+====================================================================================================================================================
+
+103). Write a query to display only the Rows of the Degree_details table that have odd ID.
+select * from degree_details where degree_id%2=1;
++-----------+-------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name             | Length_of_Course | Fees      | MIN_MARKS |
++-----------+-------------------------+------------------+-----------+-----------+
+|      5001 | Master Of Commerce      |                3 | 250000.00 |        40 |
+|      5003 | Master Of Business      |                3 | 500000.00 |        50 |
+|      5005 | Master Of Technology    |                3 | 100000.00 |        40 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |
+|      5009 | MBBS                    |                5 | 100000.00 |        40 |
+|      5011 | Assoc Bach Physics Hons |                3 |  75000.00 |        35 |
++-----------+-------------------------+------------------+-----------+-----------+
+6 rows in set (0.0004 sec)
+=========================================================================================================================================================
+
+104). Write a query to clone the Student_data table.
+
+create table Student_data_Clone1 like Student_data;
+
+show tables;
++---------------------------+
+| Tables_in_student_details |
++---------------------------+
+| degree_details            |
+| enrollment                |
+| practice                  |
+| student_data              |
+| student_data_clone1       |
++---------------------------+
+6 rows in set (0.0013 sec)
+
+describe student_data_clone1;
++----------------+-------------------------------+------+-----+---------+----------------+
+| Field          | Type                          | Null | Key | Default | Extra          |
++----------------+-------------------------------+------+-----+---------+----------------+
+| ID             | int unsigned                  | NO   | PRI | NULL    | auto_increment |
+| First_Name     | varchar(20)                   | NO   |     | NULL    |                |
+| Last_Name      | varchar(20)                   | NO   |     | NULL    |                |
+| CITY           | varchar(20)                   | NO   |     | NULL    |                |
+| Age            | int unsigned                  | NO   |     | NULL    |                |
+| Admission_date | date                          | NO   |     | NULL    |                |
+| Result         | enum('PASS','FAIL','AWAITED') | NO   |     | AWAITED |                |
++----------------+-------------------------------+------+-----+---------+----------------+
+7 rows in set (0.0013 sec)
+
+select * from student_data_clone1;
+Empty set (0.0006 sec)
+
+insert into student_data_clone1 (select * from student_data); //To insert Data from Student_data directly into the clone.
+==========================================================================================================================================================================
+
+105). Display the current date and time.
+select curdate();
++------------+
+| curdate()  |
++------------+
+| 2021-04-26 |
++------------+
+1 row in set (0.0003 sec)
+
+select curtime();
++-----------+
+| curtime() |
++-----------+
+| 13:54:52  |
++-----------+
+1 row in set (0.0003 sec)
+==========================================================================================================================================================================
+
+106). Display the details of the third highest scorer in all subjects.
+ select s.*,e.marks from
+ student_data as s
+ inner join
+ enrollment as e
+ on s.id = e.sid order by e.marks desc LIMIT 2,1;
++----+------------+-----------+-----------+-----+----------------+--------+-------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result | marks |
++----+------------+-----------+-----------+-----+----------------+--------+-------+
+| 12 | Goutham    | Sharma    | Ahmedabad |  26 | 2020-07-20     | PASS   |    79 |
++----+------------+-----------+-----------+-----+----------------+--------+-------+
+1 row in set (0.0006 sec)
+==================================================================================================================================================================
+
+107). Display the details of the second lowest scorer in Degree 5007.
+select s.*,e.deg_id,e.marks from
+Student_data as s 
+inner join 
+Enrollment as e
+on s.id=e.sid 
+where e.deg_id = 5007
+order by e.marks LIMIT 1,1;
++----+------------+-----------+--------+-----+----------------+--------+--------+-------+
+| ID | First_Name | Last_Name | CITY   | Age | Admission_date | Result | deg_id | marks |
++----+------------+-----------+--------+-----+----------------+--------+--------+-------+
+| 13 | Dilshan    | Gupta     | Jaipur |  23 | 2014-02-07     | PASS   |   5007 |    61 |
++----+------------+-----------+--------+-----+----------------+--------+--------+-------+
+1 row in set (0.0007 sec)
+==================================================================================================================================================================
+
+108). Display the first 50% records of the student_data table.
+SELECT * from student_data where id <= (select max(id) from student_data)/2;
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar     | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  2 | Aaishwarya | Ray       | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander   | Mumbai    |  27 | 2019-08-07     | PASS    |
+|  4 | Anagha     | Ahuja     | Chennai   |  22 | 2018-12-12     | PASS    |
+|  5 | Bishwas    | Bora      | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  6 | Bimla      | Bhatt     | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  7 | Brijesh    | Kumar     | Jaipur    |  22 | 2021-01-01     | PASS    |
+|  8 | Arjun      | Shet      | Bangalore |  19 | 2020-12-31     | PASS    |
+|  9 | Ramya      | Bose      | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 10 | Sharanya   | Ahuja     | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhaaaaaas | Rai       | Bangalore |  27 | 2016-05-14     | PASS    |
++----+------------+-----------+-----------+-----+----------------+---------+
+11 rows in set (0.0007 sec)
+==================================================================================================================================================================
+
+109). Write a query to get a list of course IDs that have less than 3 enrollments.
+select d.degree_id from 
+Degree_details as d 
+Left Join
+enrollment as e
+on d.degree_id=e.deg_id
+group by d.degree_id having count(*)<3;
+
++-----------+
+| degree_id |
++-----------+
+|      5000 |
+|      5001 |
+|      5002 |
+|      5003 |
+|      5005 |
+|      5006 |
+|      5008 |
+|      5009 |
+|      5010 |
+|      5011 |
++-----------+
+10 rows in set (0.0006 sec)
+
+==================================================================================================================================================================
+
+110). Write a query to get the first record of student table.
+select * from student_data where id = (select min(id) from student_data);
++----+------------+-----------+--------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY   | Age | Admission_date | Result |
++----+------------+-----------+--------+-----+----------------+--------+
+|  1 | Akash      | Kumar     | Jaipur |  24 | 2020-03-28     | PASS   |
++----+------------+-----------+--------+-----+----------------+--------+
+1 row in set (0.0005 sec)
+==================================================================================================================================================================
+
+111). Display the last record of enrollment table.
+select * from student_data where id = (select max(id) from student_data);
++----+------------+-----------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name | CITY      | Age | Admission_date | Result  |
++----+------------+-----------+-----------+-----+----------------+---------+
+| 22 | Emilio     | Rodriguez | Bangalore |  23 | 2020-02-23     | AWAITED |
++----+------------+-----------+-----------+-----+----------------+---------+
+1 row in set (0.0005 sec)
+==================================================================================================================================================================
+
+112). Get the output as "--Name-- studying in degree ----- with id ------ scored ------" for id=1,id=5 and id=19 separately.
+
+select concat(s.first_name,' studying in degree ',d.degree_name,' with id ',d.degree_id,' scored ',e.marks) from
+student_data as s
+inner join 
+enrollment as e
+on s.id=e.sid
+inner join 
+degree_details as d
+on d.degree_id=e.deg_id
+where s.id=1 or s.id=5 or s.id=19;
+
++------------------------------------------------------------------------------------------------------+
+| concat(s.first_name,' studying in degree ',d.degree_name,' with id ',d.degree_id,' scored ',e.marks) |
++------------------------------------------------------------------------------------------------------+
+| Akash studying in degree Phd Business with id 5007 scored 99                                         |
+| Bishwas studying in degree Bachelor Of Business with id 5002 scored 26                               |
+| Zhyn studying in degree Bachelor Of Technology with id 5004 scored 71                                |
++------------------------------------------------------------------------------------------------------+
+3 rows in set (0.0007 sec)
+
+======================================================================================================================================================================================
+
+113). Display the id,name,admission_date of the student and the day name of the day they took admission.
+select id,first_name,admission_date,dayname(admission_date) as 'DAY NAME' from student_data;
++----+------------+----------------+-----------+
+| id | first_name | admission_date | DAY NAME  |
++----+------------+----------------+-----------+
+|  1 | Akash      | 2020-03-28     | Saturday  |
+|  2 | Aaishwarya | 2020-05-29     | Friday    |
+|  3 | Abhay      | 2019-08-07     | Wednesday |
+|  4 | Anagha     | 2018-12-12     | Wednesday |
+|  5 | Bishwas    | 2015-02-01     | Sunday    |
+|  6 | Bimla      | 2021-03-21     | Sunday    |
+|  7 | Brijesh    | 2021-01-01     | Friday    |
+|  8 | Arjun      | 2020-12-31     | Thursday  |
+|  9 | Ramya      | 2019-09-25     | Wednesday |
+| 10 | Sharanya   | 2020-04-15     | Wednesday |
+| 11 | Suhaaaaaas | 2016-05-14     | Saturday  |
+| 12 | Goutham    | 2020-07-20     | Monday    |
+| 13 | Dilshan    | 2014-02-07     | Friday    |
+| 14 | Sachin     | 2020-01-01     | Wednesday |
+| 15 | Tanveer    | 2019-05-09     | Thursday  |
+| 16 | Rupali     | 2020-06-23     | Tuesday   |
+| 17 | Deepika    | 2017-08-22     | Tuesday   |
+| 18 | deepika    | 2020-11-05     | Thursday  |
+| 19 | Zhyn       | 2019-06-22     | Saturday  |
+| 20 | Rishi      | 2021-01-03     | Sunday    |
+| 21 | Tushar     | 2019-03-06     | Wednesday |
+| 22 | Emilio     | 2020-02-23     | Sunday    |
++----+------------+----------------+-----------+
+22 rows in set (0.0007 sec)
+===================================================================================================================================================================================================
+      
+114). Display the details of the student who joined on a Thursday in the month of may.
+SELECT * FROM STUDENT_DATA WHERE DAYNAME(ADMISSION_DATE)='Thursday' and admission_date like '%-05-%';
++----+------------+-----------+---------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY    | Age | Admission_date | Result |
++----+------------+-----------+---------+-----+----------------+--------+
+| 15 | Tanveer    | Ahmed     | Chennai |  23 | 2019-05-09     | PASS   |
++----+------------+-----------+---------+-----+----------------+--------+
+1 row in set (0.0005 sec)
+====================================================================================================================================================================================================
+    
+115). Display the details of the students who joined in a leap year.
+select * from student_data where (year(admission_date)%4=0 and year(admission_date)%100!=0)
+                                                -> or year(admission_date)%400=0;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhaaaaaas | Rai        | Bangalore |  27 | 2016-05-14     | PASS    |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 18 | deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 22 | Emilio     | Rodriguez  | Bangalore |  23 | 2020-02-23     | AWAITED |
+| 31 | A          | B          | Mumbai    |  41 | 2400-06-23     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+11 rows in set (0.0008 sec)
+=====================================================================================================================================================================================================
+
+116). Write a query to display the Degree Id in which more than 2 students have enrolled and the combined score of the students is more than 100.
+select deg_id from enrollment group by deg_id having count(*)>2 and sum(marks);
++--------+
+| deg_id |
++--------+
+|   5004 |
+|   5007 |
++--------+
+2 rows in set (0.0008 sec)
+=====================================================================================================================================================================================================
+
+117). Write a stored procedure to display the student details based on the city.
+DELIMITER &&
+CREATE PROCEDURE get_Student_Details(IN City_name varchar(20))
+BEGIN
+Select * from student_data where city = city_name;
+END &&
+DELIMITER ;
+
+call get_Student_Details('Mumbai');
++----+------------+-----------+--------+-----+----------------+--------+
+| ID | First_Name | Last_Name | CITY   | Age | Admission_date | Result |
++----+------------+-----------+--------+-----+----------------+--------+
+|  2 | Aaishwarya | Ray       | Mumbai |  32 | 2020-05-29     | PASS   |
+|  3 | Abhay      | Chander   | Mumbai |  27 | 2019-08-07     | PASS   |
+| 10 | Sharanya   | Ahuja     | Mumbai |  20 | 2020-04-15     | FAIL   |
+| 30 | A          | B         | Mumbai |  41 | 2100-06-23     | PASS   |
+| 31 | A          | B         | Mumbai |  41 | 2400-06-23     | PASS   |
++----+------------+-----------+--------+-----+----------------+--------+
+5 rows in set (0.0012 sec)
+
+Query OK, 0 rows affected (0.0012 sec)
+====================================================================================================================================================================================================================
+
+118). Write a procedure to get total count of the students.
+DELIMITER &&
+CREATE PROCEDURE get_Total()
+BEGIN
+select count(*) from student_data;
+END &&
+DELIMITER ;
+
+ call get_Total();
++----------+
+| count(*) |
++----------+
+|       24 |
++----------+
+1 row in set (0.0013 sec)
+
+Query OK, 0 rows affected (0.0013 sec)
+=====================================================================================================================================================================================================================
+
+119). Display the student_data, degree_details and enrollment table using a single call.
+DELIMITER &&
+CREATE PROCEDURE Tracker()
+BEGIN
+select * from student_data;
+select * from degree_details;
+select * from enrollment;
+END &&
+DELIMITER ;
+
+call tracker;
++----+------------+------------+-----------+-----+----------------+---------+
+| ID | First_Name | Last_Name  | CITY      | Age | Admission_date | Result  |
++----+------------+------------+-----------+-----+----------------+---------+
+|  1 | Akash      | Kumar      | Jaipur    |  24 | 2020-03-28     | PASS    |
+|  2 | Aaishwarya | Ray        | Mumbai    |  32 | 2020-05-29     | PASS    |
+|  3 | Abhay      | Chander    | Mumbai    |  27 | 2019-08-07     | PASS    |
+|  4 | Anagha     | Ahuja      | Chennai   |  22 | 2018-12-12     | PASS    |
+|  5 | Bishwas    | Bora       | Ahmedabad |  44 | 2015-02-01     | AWAITED |
+|  6 | Bimla      | Bhatt      | Ahmedabad |  21 | 2021-03-21     | FAIL    |
+|  7 | Brijesh    | Kumar      | Jaipur    |  22 | 2021-01-01     | PASS    |
+|  8 | Arjun      | Shet       | Bangalore |  19 | 2020-12-31     | PASS    |
+|  9 | Ramya      | Bose       | Bangalore |  25 | 2019-09-25     | FAIL    |
+| 10 | Sharanya   | Ahuja      | Mumbai    |  20 | 2020-04-15     | FAIL    |
+| 11 | Suhaaaaaas | Rai        | Bangalore |  27 | 2016-05-14     | PASS    |
+| 12 | Goutham    | Sharma     | Ahmedabad |  26 | 2020-07-20     | PASS    |
+| 13 | Dilshan    | Gupta      | Jaipur    |  23 | 2014-02-07     | PASS    |
+| 14 | Sachin     | Acharya    | Bangalore |  22 | 2020-01-01     | PASS    |
+| 15 | Tanveer    | Ahmed      | Chennai   |  23 | 2019-05-09     | PASS    |
+| 16 | Rupali     | Gupta      | Chennai   |  21 | 2020-06-23     | PASS    |
+| 17 | Deepika    | Verma      | Ahmedabad |  26 | 2017-08-22     | PASS    |
+| 18 | deepika    | Chatterjee | Ahmedabad |  29 | 2020-11-05     | PASS    |
+| 19 | Zhyn       | Jackman    | Bangalore |  24 | 2019-06-22     | PASS    |
+| 20 | Rishi      | Shakshamas | Jaipur    |  25 | 2021-01-03     | AWAITED |
+| 21 | Tushar     | Thammanna  | Ahmedabad |  24 | 2019-03-06     | AWAITED |
+| 22 | Emilio     | Rodriguez  | Bangalore |  23 | 2020-02-23     | AWAITED |
+| 30 | A          | B          | Mumbai    |  41 | 2100-06-23     | PASS    |
+| 31 | A          | B          | Mumbai    |  41 | 2400-06-23     | PASS    |
++----+------------+------------+-----------+-----+----------------+---------+
+24 rows in set (0.0006 sec)
+
++-----------+-------------------------+------------------+-----------+-----------+
+| Degree_ID | degree_name             | Length_of_Course | Fees      | MIN_MARKS |
++-----------+-------------------------+------------------+-----------+-----------+
+|      5000 | Bachelor Of Commerce    |                3 | 200000.00 |        35 |
+|      5001 | Master Of Commerce      |                3 | 250000.00 |        40 |
+|      5002 | Bachelor Of Business    |                3 | 600000.00 |        35 |
+|      5003 | Master Of Business      |                3 | 500000.00 |        50 |
+|      5004 | Bachelor Of Technology  |                4 | 400000.00 |        35 |
+|      5005 | Master Of Technology    |                3 | 100000.00 |        40 |
+|      5006 | Phd Technology          |                5 | 300000.00 |        50 |
+|      5007 | Phd Business            |                5 |  90000.00 |        50 |
+|      5008 | Phd Commerce            |                4 |  50000.00 |        45 |
+|      5009 | MBBS                    |                5 | 100000.00 |        40 |
+|      5010 | MD                      |                4 | 500000.00 |        35 |
+|      5011 | Assoc Bach Physics Hons |                3 |  75000.00 |        35 |
++-----------+-------------------------+------------------+-----------+-----------+
+12 rows in set (0.0006 sec)
+
++-----+-------+--------+
+| sid | marks | deg_id |
++-----+-------+--------+
+|   1 |    99 |   5007 |
+|   2 |    66 |   5007 |
+|   3 |    76 |   5010 |
+|   5 |    26 |   5002 |
+|   6 |    45 |   5003 |
+|   7 |    81 |   5004 |
+|   8 |    31 |   5004 |
+|   9 |    28 |   5001 |
+|  11 |    56 |   5002 |
+|  12 |    79 |   5005 |
+|  13 |    61 |   5007 |
+|  14 |    30 |   5009 |
+|  15 |    41 |   5010 |
+|  16 |    75 |   5001 |
+|  17 |    55 |   5007 |
+|  19 |    71 |   5004 |
+|  22 |    63 |   5004 |
++-----+-------+--------+
+17 rows in set (0.0006 sec)
+
+Query OK, 0 rows affected (0.0006 sec)
+====================================================================================================================================================================================================================
+
+120). Display the grades of the students based on their marks. Grade A if marks are >90, Grade B between 75 and 89, Grade C between 60 and 74
+      and Grade D otherwise using if-else.
+DELIMITER &&
+CREATE PROCEDURE Assign_Grad(IN ID_Num INT)
+BEGIN
+DECLARE Grade varchar(10);
+DECLARE Score INT Default 0;
+SELECT marks into Score from enrollment where sid=ID_Num;
+
+IF Score > 90 Then
+	SET Grade='Grade A';
+ELSEIF Score>=75 and Score <=89 Then
+	SET Grade='Grade B';
+ELSEIF Score>=60 and Score <=74 Then
+	SET Grade='Grade C';
+ELSE 
+	SET Grade = 'Grade D';
+END IF;
+Select Grade;
+END &&
+DELIMITER ;
+
+ call Assign_Grad(13);
++---------+
+| Grade   |
++---------+
+| Grade C |
++---------+
+1 row in set (0.0011 sec)
+
+call Assign_Grad(1);
++---------+
+| Grade   |
++---------+
+| Grade A |
++---------+
+1 row in set (0.0005 sec)
+
+Query OK, 0 rows affected (0.0005 sec)
+=====================================================================================================================================================================
+
+121). Do the same as question 121 using CASE.
+DELIMITER &&
+CREATE PROCEDURE Assign_GradC(IN ID_Num INT)
+BEGIN
+DECLARE Grade varchar(10);
+DECLARE Score INT Default 0;
+SELECT marks into Score from enrollment where sid=ID_Num;
+
+CASE
+	When Score>90 Then
+		SET Grade='Grade A';
+	When Score>=75 and Score<=89 Then
+		SET Grade = 'Grade B';
+	WHEN Score>=60 and Score<=74 Then
+		SET Grade = 'Grade C';
+	ELSE 
+		SET Grade = 'Grade D';
+END CASE;
+
+Select Grade;
+END &&
+DELIMITER ;
+
+call Assign_GradC(13);
++---------+
+| Grade   |
++---------+
+| Grade C |
++---------+
+1 row in set (0.0008 sec)
+
+Query OK, 0 rows affected (0.0008 sec)
+
+call Assign_GradC(1);
++---------+
+| Grade   |
++---------+
+| Grade A |
++---------+
+1 row in set (0.0005 sec)
+
+Query OK, 0 rows affected (0.0005 sec)
+======================================================================================================================================================================================================
+
+122). Write a procedure to display first N even numbers.
+DELIMITER &&
+CREATE PROCEDURE Even_Num_Generator(IN N INT)
+BEGIN
+Declare Counter int default 0;
+Declare Answer int default 2;
+Declare str varchar(255);
+SET str=' ';
+IF N>=1 Then
+	Label1:LOOP 
+		SET str = CONCAT(str, Answer,'  '); 
+		SET Counter = Counter + 1;
+		SET Answer = Answer + 2;
+		IF Counter=N Then
+			LEAVE Label1;
+		END IF;
+		END LOOP;
+ELSE	
+	Select 'Unable to display';
+END IF;
+Select str;
+END &&
+DELIMITER ;
+
+ call Even_Num_Generator(25);
++---------------------------------------------------------------------------------------------------+
+| str                                                                                               |
++---------------------------------------------------------------------------------------------------+
+|  2  4  6  8  10  12  14  16  18  20  22  24  26  28  30  32  34  36  38  40  42  44  46  48  50   |
++---------------------------------------------------------------------------------------------------+
+1 row in set (0.0007 sec)
+
+Query OK, 0 rows affected (0.0007 sec)
+
+call Even_Num_Generator(6);
++-----------------------+
+| str                   |
++-----------------------+
+|  2  4  6  8  10  12   |
++-----------------------+
+1 row in set (0.0005 sec)
+
+Query OK, 0 rows affected (0.0005 sec)
+
+====================================================================================================================================================================================================================
+123). Generate first N Odd numbers using WHILE LOOP.
+
+DELIMITER &&
+CREATE PROCEDURE Odd_Num_Generator(IN N INT)
+BEGIN
+Declare Counter int default 0;
+Declare Answer int default 1;
+Declare str varchar(255);
+SET str=' ';
+
+WHILE Counter!=N DO
+SET str = concat(str,answer,' '); 
+SET Counter = Counter + 1;  
+SET Answer = Answer + 2;
+END WHILE;
+Select str;
+END &&
+DELIMITER ;
+
+call Odd_Num_Generator(25);
++-------------------------------------------------------------------------+
+| str                                                                     |
++-------------------------------------------------------------------------+
+|  1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49  |
++-------------------------------------------------------------------------+
+1 row in set (0.0008 sec)
+
+Query OK, 0 rows affected (0.0008 sec)
+=====================================================================================================================================================================================================================
+
+124). Display a horizontal list of last names in the student_data table.
+DELIMITER &&
+CREATE PROCEDURE LN_Appender()
+BEGIN
+DECLARE str varchar(1000) DEFAULT ' ';
+DECLARE Holder varchar(50) Default ' ';
+DECLARE Indicator INT DEFAULT 0;
+DECLARE curln CURSOR FOR select Last_name from student_data;
+DECLARE Continue HANDLER FOR NOT FOUND SET Indicator=1;
+
+OPEN curln;
+WHILE Indicator=0 DO
+Fetch curln into Holder;
+SET str =CONCAT(str,' ',Holder);
+END WHILE;
+Select str;
+CLOSE curln;
+END &&
+DELIMITER ;
+
+CALL LN_Appender();
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| str                                                                                                                                                           |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|   Kumar Ray Chander Ahuja Bora Bhatt Kumar Shet Bose Ahuja Rai Sharma Gupta Acharya Ahmed Gupta Verma Chatterjee Jackman Shakshamas Thammanna Rodriguez B B B |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0022 sec)
+
+Query OK, 0 rows affected (0.0022 sec)
+========================================================================================================================================================================================================================= 
+
+125).  In question 121 use Signal and resignal to check if IDs entered are actually present in the table or not. If not display an error.
+
+DELIMITER &&
+CREATE PROCEDURE Assign_Grad3(IN ID_Num INT)
+BEGIN
+DECLARE Grade varchar(10);
+DECLARE Score INT;
+
+DECLARE ID_NOT_EXIST CONDITION FOR SQLSTATE '02000';
+DECLARE CONTINUE HANDLER FOR ID_NOT_EXIST
+RESIGNAL SET MESSAGE_TEXT = 'ID DOESNOT EXIST IN THE TABLE SPECIFIED'; 
+
+SELECT marks into Score from enrollment where sid=ID_Num;
+if isnull(score) then
+signal ID_NOT_EXIST;
+END IF;
+
+CASE
+	When Score>90 Then
+		SET Grade = 'Grade A';
+	When Score>=75 and Score<=89 Then
+		SET Grade = 'Grade B';
+	WHEN Score>=60 and Score<=74 Then
+		SET Grade = 'Grade C';
+	ELSE 
+		SET Grade = 'Grade D';
+END CASE;
+Select Grade;
+END &&
+DELIMITER ;
+
+CALL Assign_Grad3(1);
++---------+
+| Grade   |
++---------+
+| Grade A |
++---------+
+1 row in set (0.0012 sec)
+
+Query OK, 0 rows affected (0.0012 sec)
+
+CALL Assign_Grad3(999);
+ERROR: 1643 (02000): ID DOESNOT EXIST IN THE TABLE SPECIFIED
+===========================================================================================================================================================================================================================
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
